@@ -3,7 +3,7 @@ export const ROUTERS = {
     HOME: "/",
     LOGINPAGE: "/login",
     REGISTERPAGE: "/register",
-    DETAILCOURSE: "/detailCourse",
+    DETAILCOURSE: "/detailCourse/:id",
   },
   ADMIN: {
     LOGINADMIN: "/admin/loginAdmin",

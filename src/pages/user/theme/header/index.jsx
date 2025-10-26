@@ -5,7 +5,7 @@ import Logo from "../../../../assets/user/Logo.svg";
 const Header = () => {
   const navigate = useNavigate();
   return (
-    <header className="sticky top-0 z-50 border-b border-red-200 shadow-md shadow-red-50">
+    <header className="sticky top-0 z-50 border-b border-red-200 shadow-md shadow-red-50 bg-white">
       <div className="max-w-7xl flex mx-auto items-center justify-between px-4 py-3">
         <div className="">
           <img

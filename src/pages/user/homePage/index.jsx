@@ -9,8 +9,24 @@ import StatsSection from "../../../components/StatsSection";
 import CTASection from "../../../components/CTASection";
 import Course from "../../../components/Course";
 import { ArrowRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import * as courseService from "../../../service/courseService";
 
 const HomePage = () => {
+  const fetechCourses = async () => {
+    const data = await courseService.getAllCourses();
+    return data;
+  };
+
+  const { data: courses = [], isLoading } = useQuery({
+    queryKey: ["courses"],
+    queryFn: fetechCourses,
+  });
+
+  if (isLoading) {
+    return <p className="text-center py-10">Đang tải khóa học...</p>;
+  }
+
   return (
     <div>
       <HeroSection />
@@ -101,12 +117,9 @@ const HomePage = () => {
             </button>
           </div>
           <div className="grid grid-cols-3 gap-8 mx-auto">
-            <Course />
-            <Course />
-            <Course />
-            <Course />
-            <Course />
-            <Course />
+            {courses.map((course) => (
+              <Course key={course._id || course.id} data={course} />
+            ))}
           </div>
         </div>
         <div className="flex justify-center mt-12">
