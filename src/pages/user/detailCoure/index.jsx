@@ -5,15 +5,16 @@ import {
   Star,
   Users,
   Clock,
-  Heart,
-  Share2,
   CheckCircle,
+  ShoppingCart,
+  Tag,
 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import * as courseService from "../../../service/courseService";
 
 const DetailCourse = () => {
+  const [coupon, setCoupon] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
@@ -29,7 +30,11 @@ const DetailCourse = () => {
   });
 
   if (isLoading) {
-    return <p className="text-center py-10">Đang tải chi tiết khóa học...</p>;
+    return (
+      <p className="text-center py-10 min-h-screen">
+        Đang tải chi tiết khóa học...
+      </p>
+    );
   }
 
   if (!courseDetail) {
@@ -38,18 +43,6 @@ const DetailCourse = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
-      <div className="bg-white border-b border-red-200">
-        <div className="px-8 py-4">
-          <div
-            onClick={() => navigate("/")}
-            className="flex items-center gap-2 text-red-500 hover:text-red-700 cursor-pointer transition-all"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span>Quay lại</span>
-          </div>
-        </div>
-      </div>
-
       <div className="bg-gradient-to-br from-red-100 via-white to-red-50 py-16 border-b border-red-200">
         <div className="max-w-6xl mx-auto px-8 grid grid-cols-2 gap-10 items-center">
           <div className="space-y-6">
@@ -89,25 +82,29 @@ const DetailCourse = () => {
               </p>
             </div>
 
-            <div className="flex items-center gap-4 pt-4">
-              <button className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-400 text-white font-semibold rounded-lg hover:scale-[1.02] transition-all shadow-lg">
-                Đăng ký khóa học
+            <div className="flex flex-wrap items-center gap-4 pt-6">
+              <button className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-400 text-white font-semibold rounded-xl shadow-md hover:scale-[1.03] hover:shadow-lg transition-transform duration-200">
+                Mua khóa học ngay
               </button>
 
-              <button
-                onClick={() => setIsFavorite(!isFavorite)}
-                className="px-6 py-3 border border-red-400 text-red-500 rounded-lg flex items-center gap-2 hover:bg-red-50 hover:border-red-500 transition-all"
-              >
-                <Heart
-                  className={`w-5 h-5 ${isFavorite ? "fill-red-500" : ""}`}
+              <button className="px-6 py-3 border border-red-400 text-red-500 rounded-xl flex items-center gap-2 hover:bg-red-50 hover:border-red-500 transition-all font-medium">
+                <ShoppingCart className="w-5 h-5" />
+                Thêm vào giỏ hàng
+              </button>
+
+              <div className="flex items-center border border-red-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-all">
+                <Tag className="w-5 h-5 text-gray-500 ml-3" />
+                <input
+                  type="text"
+                  placeholder="Nhập mã giảm giá"
+                  value={coupon}
+                  onChange={(e) => setCoupon(e.target.value)}
+                  className="px-3 py-2 outline-none w-44 text-sm bg-transparent text-gray-700 placeholder:text-gray-400 "
                 />
-                Yêu thích
-              </button>
-
-              <button className="px-6 py-3 border border-red-400 text-red-500 rounded-lg flex items-center gap-2 hover:bg-red-50 hover:border-red-500 transition-all">
-                <Share2 className="w-5 h-5" />
-                Chia sẻ
-              </button>
+                <button className="bg-gradient-to-r from-red-500 to-red-400 hover:bg-red-600 text-white font-medium px-4 py-2 transition-all">
+                  Áp dụng
+                </button>
+              </div>
             </div>
           </div>
 

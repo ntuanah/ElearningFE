@@ -1,4 +1,4 @@
-const CTASection = () => {
+const CTASection = ({ scrollToExplore }) => {
   return (
     <div className="w-full bg-red-100 py-15 flex justify-center">
       <div className="py-20 bg-gradient-to-r from-red-500 to-red-400 text-center text-white rounded-3xl w-5/6">
@@ -8,7 +8,10 @@ const CTASection = () => {
             Tham gia hàng nghìn học viên đang phát triển kỹ năng của họ trên
             Thăng Long University.
           </p>
-          <button className="px-10 py-4 bg-white text-red-500 font-semibold rounded-lg hover:bg-red-100 transition-all shadow-lg hover:shadow-xl">
+          <button
+            onClick={scrollToExplore}
+            className="px-10 py-4 bg-white text-red-500 font-semibold rounded-lg hover:bg-red-100 transition-all shadow-lg hover:shadow-xl"
+          >
             Đăng ký ngay
           </button>
         </div>

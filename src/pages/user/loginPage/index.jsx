@@ -2,35 +2,50 @@ import React, { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import Logo from "../../../assets/user/Logo.svg";
 import { useNavigate } from "react-router-dom";
+import * as authService from "../../../service/authService";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      alert("Đăng nhập thành công!");
-    }, 1000);
+  const handleOnChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const res = await authService.login(formData.email, formData.password);
+      console.log(res);
+      if (res.success === true) {
+        toast.success(res.message);
+        localStorage.setItem("accessToken", res.data.accessToken);
+        Cookies.set("refreshToken", res.data.refreshToken, {
+          expires: 7,
+          secure: false,
+          sameSite: "Strict",
+        });
+        navigate("/");
+      }
+      setIsLoading(false);
+      return res;
+    } catch (e) {
+      toast.error(e.response.data.message);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-300 via-white to-red-100 relative px-4">
-      {/* Nút quay lại */}
-      <div
-        href="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-gray-700 hover:text-red-600 transition-all"
-        onClick={() => navigate("/")}
-      >
-        <ArrowLeft className="w-5 h-5" />
-        <span className="font-medium">Quay lại</span>
-      </div>
-
-      {/* Form login */}
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-red-200">
-        {/* Logo + tiêu đề */}
         <div className="text-center mb-8">
           <img
             src={Logo}
@@ -42,12 +57,9 @@ const LoginPage = () => {
           </p>
         </div>
 
-        {/* Tiêu đề form */}
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Đăng nhập</h2>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Email */}
           <div>
             <label
               htmlFor="email"
@@ -60,6 +72,8 @@ const LoginPage = () => {
               <input
                 id="email"
                 type="email"
+                name="email"
+                onChange={handleOnChange}
                 placeholder="your@email.com"
                 required
                 className="w-full pl-10 pr-4 py-2.5 border border-red-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
@@ -67,7 +81,6 @@ const LoginPage = () => {
             </div>
           </div>
 
-          {/* Mật khẩu */}
           <div>
             <label
               htmlFor="password"
@@ -81,6 +94,8 @@ const LoginPage = () => {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
+                name="password"
+                onChange={handleOnChange}
                 required
                 className="w-full pl-10 pr-10 py-2.5 border border-red-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
               />
@@ -98,7 +113,6 @@ const LoginPage = () => {
             </div>
           </div>
 
-          {/* Remember + Forgot */}
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -115,7 +129,6 @@ const LoginPage = () => {
             </div>
           </div>
 
-          {/* Nút đăng nhập */}
           <button
             type="submit"
             disabled={isLoading}
@@ -125,7 +138,6 @@ const LoginPage = () => {
           </button>
         </form>
 
-        {/* Divider */}
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300"></div>
@@ -135,7 +147,6 @@ const LoginPage = () => {
           </div>
         </div>
 
-        {/* Social buttons */}
         <div className="grid grid-cols-2 gap-3">
           <button className="border py-2.5 rounded-lg hover:bg-red-200 hover:border-red-400 hover:scale-[1.05] transition-all">
             Google
@@ -145,16 +156,15 @@ const LoginPage = () => {
           </button>
         </div>
 
-        {/* Đăng ký */}
         <p className="text-center text-gray-500 mt-6 text-sm">
           Chưa có tài khoản?{" "}
-          <div
+          <span
             href="/auth/signup"
             className="text-red-500 hover:text-red-700 font-semibold"
             onClick={() => navigate("/register")}
           >
             Đăng ký ngay
-          </div>
+          </span>
         </p>
       </div>
     </div>

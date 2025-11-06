@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { ROUTERS } from "../../../../utils/router";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-200 py-16">
@@ -7,12 +10,15 @@ const Footer = () => {
             <h4 className="font-semibold text-white mb-4">Khóa học</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
-                <a href="#" className="hover:text-white transition">
-                  Lập trình
-                </a>
+                <Link
+                  to={ROUTERS.USER.LOGINPAGE}
+                  className="hover:text-white transition"
+                >
+                  Lập trình 1233
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition">
+                <a href="/login" className="hover:text-white transition">
                   Thiết kế
                 </a>
               </li>

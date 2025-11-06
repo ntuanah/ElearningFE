@@ -35,6 +35,7 @@ const CourseModules = ({ data }) => {
         <div className="px-6 pb-3">
           {data.lessons?.map((lesson) => (
             <div
+              onClick={() => lesson.onClick && lesson.onClick()}
               key={lesson.id}
               className="flex justify-between items-center py-2 border-b border-gray-100 hover:bg-red-50 rounded-md px-2 transition-all"
             >

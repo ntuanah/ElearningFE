@@ -1,9 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import Logo from "../../../../assets/user/Logo.svg";
+import { getToken } from "../../../../utils/getToken";
+import Cookies from "js-cookie";
 
 const Header = () => {
   const navigate = useNavigate();
+  const token = getToken();
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    Cookies.remove("refreshToken");
+    navigate("/login");
+  };
   return (
     <header className="sticky top-0 z-50 border-b border-red-200 shadow-md shadow-red-50 bg-white">
       <div className="max-w-7xl flex mx-auto items-center justify-between px-4 py-3">
@@ -12,6 +21,7 @@ const Header = () => {
             src={Logo}
             alt=""
             className="w-[160px] h-[60px] cursor-pointer"
+            onClick={() => navigate("/")}
           />
         </div>
         <div className="flex items-center w-full border border-red-400 rounded-full px-3 py-4 hover:bg-red-50 focus-within:!bg-white focus-within:ring-2 focus-within:ring-red-500 mx-4 cursor-pointer ">
@@ -29,6 +39,7 @@ const Header = () => {
               width="24px"
               height="24px"
               viewBox="0 0 24 24"
+              onClick={() => navigate("/cart")}
             >
               <path
                 fill="#FF6367"
@@ -36,18 +47,51 @@ const Header = () => {
               />
             </svg>
           </div>
-          <button
-            onClick={() => navigate("/login")}
-            className="font-bold px-5 py-3 border border-red-400 rounded-md text-sm hover:bg-red-50 hover:border-red-500 whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
-          >
-            Đăng nhập
-          </button>
-          <button
-            onClick={() => navigate("/register")}
-            className="font-bold px-5 py-3 bg-red-500 text-white rounded-md text-sm hover:bg-red-400 border whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
-          >
-            Đăng ký
-          </button>
+          {!token ? (
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => navigate("/login")}
+                className="font-bold px-5 py-3 border border-red-400 rounded-md text-sm hover:bg-red-50 hover:border-red-500 whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
+              >
+                Đăng nhập
+              </button>
+              <button
+                onClick={() => navigate("/register")}
+                className="font-bold px-5 py-3 bg-red-500 text-white rounded-md text-sm hover:bg-red-400 border whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
+              >
+                Đăng ký
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <div
+                onClick={() => navigate("/profile")}
+                className="me-5 px-3 py-3 rounded-md hover:bg-red-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22px"
+                  height="22px"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="none"
+                    stroke="#FF6367"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"
+                  />
+                </svg>
+              </div>
+              <button
+                onClick={() => handleLogout()}
+                className="font-bold px-5 py-3 bg-red-500 text-white rounded-md text-sm hover:bg-red-400 border whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
+              >
+                Đăng xuất
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>
