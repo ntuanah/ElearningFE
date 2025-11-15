@@ -12,12 +12,25 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import * as courseService from "../../../service/courseService";
+import * as cartService from "../../../service/cartService";
+import { toast } from "react-toastify";
 
 const DetailCourse = () => {
   const [coupon, setCoupon] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleAddToCart = async () => {
+    try {
+      const res = await cartService.addCourseToCart(id);
+      if (res.success === true) {
+        toast.success(res.message || "Đã thêm vào giỏ hàng");
+      }
+    } catch (e) {
+      toast.error(e.response?.data?.message);
+    }
+  };
 
   const fetchCourseDetail = async () => {
     const data = await courseService.getCourseById(id);
@@ -87,7 +100,10 @@ const DetailCourse = () => {
                 Mua khóa học ngay
               </button>
 
-              <button className="px-6 py-3 border border-red-400 text-red-500 rounded-xl flex items-center gap-2 hover:bg-red-50 hover:border-red-500 transition-all font-medium">
+              <button
+                onClick={handleAddToCart}
+                className="px-6 py-3 border border-red-400 text-red-500 rounded-xl flex items-center gap-2 hover:bg-red-50 hover:border-red-500 transition-all font-medium"
+              >
                 <ShoppingCart className="w-5 h-5" />
                 Thêm vào giỏ hàng
               </button>

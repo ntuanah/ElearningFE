@@ -12,6 +12,9 @@ import { ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import * as courseService from "../../../service/courseService";
 import { useNavigate } from "react-router-dom";
+import TeachersSection from "../../../components/TeachersSection";
+import TestimonialsSection from "../../../components/TestimonialsSection";
+import FAQSection from "../../../components/FAQSection";
 
 const HomePage = () => {
   const [page, setPage] = useState(1);
@@ -71,7 +74,7 @@ const HomePage = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="flex flex-col justify-between h-full bg-white border border-red-100 rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all hover:-translate-y-2 text-center"
+                className="flex flex-col justify-between h-full bg-white border border-red-100  rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all hover:-translate-y-2 text-center"
               >
                 <h3 className="font-semibold text-lg text-red-500 mb-3 group-hover:text-red-500 transition-colors">
                   {item.title}
@@ -158,6 +161,10 @@ const HomePage = () => {
           </button>
         </div>
       </div>
+
+      <TeachersSection />
+      <TestimonialsSection />
+      <FAQSection />
       <CTASection
         scrollToExplore={() =>
           exploreRef.current?.scrollIntoView({ behavior: "smooth" })

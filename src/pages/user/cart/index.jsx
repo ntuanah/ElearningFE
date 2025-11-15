@@ -1,15 +1,37 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import * as cartService from "../../../service/cartService";
+import { useQuery } from "@tanstack/react-query";
+import CartItem from "../../../components/Cart/CartItem";
 
 const CartPage = () => {
   const navigate = useNavigate();
   const [visible, setVisible] = useState(true);
+  const [count, setCount] = useState(0);
   const price = 499000;
 
   const removeItem = () => setVisible(false);
   const clearCart = () => setVisible(false);
-  const total = visible ? price : 0;
+
+  const fetchCartItems = async () => {
+    const data = await cartService.getCartItems();
+    return data;
+  };
+
+  const { data: cartItems, refetch } = useQuery({
+    queryKey: ["cart-items"],
+    queryFn: fetchCartItems,
+  });
+
+  console.log(cartItems?.data.length);
+
+  const countPrice = () => {
+    if (!cartItems?.data) return 0;
+    ` return cartItems.data.reduce((sum, item) => sum + (item.price || 0), 0);`;
+  };
+
+  const total = visible ? countPrice() : 0;
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-red-50 via-white to-white font-sans">
@@ -18,39 +40,18 @@ const CartPage = () => {
       </div>
 
       <div className="max-w-6xl mx-auto px-8 pb-8">
-        <div className="flex gap-8 items-start">
-          <div className="flex-1 bg-white border border-red-200 rounded-2xl p-4 shadow-sm">
-            {visible ? (
-              <div className="flex items-center gap-6">
-                <img
-                  src="https://img-c.udemycdn.com/course/750x422/5238734_c8a8_3.jpg"
-                  alt="Khóa học React Cơ Bản"
-                  className="w-24 h-24 rounded-xl border object-cover"
+        <div className="flex gap-8 items-start w-full">
+          <div className="flex flex-col gap-5 w-full bg-white border border-red-200 rounded-2xl p-4 shadow-sm">
+            {cartItems && cartItems?.data.length > 0 ? (
+              cartItems.data.map((cartItem) => (
+                <CartItem
+                  key={cartItem.id}
+                  cartItem={cartItem}
+                  refetch={refetch}
                 />
-
-                <div className="flex-1">
-                  <h2 className="font-semibold text-lg text-gray-800">
-                    Khóa học React Cơ Bản
-                  </h2>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Giảng viên: Nguyễn Văn A
-                  </p>
-                  <p className="text-base font-semibold mt-2 text-red-500">
-                    {price.toLocaleString()} ₫
-                  </p>
-                </div>
-
-                <button
-                  onClick={removeItem}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
-                >
-                  Xóa
-                </button>
-              </div>
+              ))
             ) : (
-              <p className="text-gray-500 text-center mt-8 text-lg">
-                Giỏ hàng trống.
-              </p>
+              <div>Giỏ hàng trống</div>
             )}
           </div>
 

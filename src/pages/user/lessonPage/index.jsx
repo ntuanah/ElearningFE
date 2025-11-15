@@ -24,8 +24,16 @@ const CourseLessonPage = () => {
       </div>
 
       <div className="flex-1 bg-white rounded-xl shadow-md border border-gray-100 p-6 flex flex-col items-center h-fit">
-        <div className="w-full h-165 bg-black rounded-lg mb-4 flex items-center justify-center text-white font-semibold text-xl">
-          {currentLessonTitle}
+        <div className="w-full h-165 rounded-lg mb-4 overflow-hidden">
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
         </div>
 
         <div className="flex justify-between w-full mt-4 ">

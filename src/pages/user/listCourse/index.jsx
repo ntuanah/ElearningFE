@@ -135,7 +135,7 @@ const ListCourse = () => {
             <button
               onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
               disabled={page === 0}
-              className="flex items-center justify-center w-10 h-10 text-gray-500 bg-gray-100 rounded-md font-medium hover:bg-red-200 transition-colors disabled:opacity-50"
+              className="px-7 flex items-center justify-center w-10 h-10 text-gray-500 bg-gray-100 rounded-md font-medium hover:bg-red-200 transition-colors disabled:opacity-50"
             >
               Trước
             </button>
@@ -175,7 +175,7 @@ const ListCourse = () => {
                 setPage((prev) => Math.min(prev + 1, totalPages - 1))
               }
               disabled={page === totalPages - 1}
-              className="flex items-center justify-center w-10 h-10 text-gray-500 bg-gray-100 rounded-md font-medium hover:bg-red-200 transition-colors disabled:opacity-50"
+              className="px-7 flex items-center justify-center w-10 h-10 text-gray-500 bg-gray-100 rounded-md font-medium hover:bg-red-200 transition-colors disabled:opacity-50"
             >
               Sau
             </button>

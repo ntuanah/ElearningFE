@@ -40,7 +40,12 @@ const CourseModules = ({ data }) => {
               className="flex justify-between items-center py-2 border-b border-gray-100 hover:bg-red-50 rounded-md px-2 transition-all"
             >
               <span className="text-sm text-gray-700">{lesson.title}</span>
-              <span className="text-xs text-gray-500">{lesson.duration}p</span>
+              <div>
+                <span className="text-xs text-gray-500 me-2">
+                  {lesson.duration}p
+                </span>
+                <input type="checkbox" className="accent-red-500 w-4 h-4" />
+              </div>
             </div>
           ))}
         </div>

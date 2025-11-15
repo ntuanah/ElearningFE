@@ -8,7 +8,7 @@ function MasterLaypout({ children, ...props }) {
   return (
     <div {...props}>
       {!hideLayout && <Header />}
-      {children}
+      <div className="min-h-screen">{children}</div>
       {!hideLayout && <Footer />}
     </div>
   );
