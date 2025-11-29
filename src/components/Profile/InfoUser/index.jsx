@@ -7,11 +7,11 @@ const InfoUser = ({
   handleOnChange,
   handleUpdateProfile,
   formData,
+  formPass,
+  handleChangePass,
+  handleSubmitPass,
 }) => {
   const userId = getUserId();
-
-  console.log("User Profile:", userProfile);
-  console.log("Form Data in InfoUser:", formData);
 
   return (
     <div>
@@ -79,7 +79,10 @@ const InfoUser = ({
       <div className="p-6 mt-2">
         <div className="flex justify-between items-center mb-6">
           <div className="font-bold text-2xl text-red-500">Đổi mật khẩu</div>
-          <div className="bg-red-500 rounded-xl text-white p-2 hover:bg-red-600 cursor-pointer">
+          <div
+            onClick={handleSubmitPass}
+            className="bg-red-500 rounded-xl text-white p-2 hover:bg-red-600 cursor-pointer"
+          >
             Cập nhật mật khẩu
           </div>
         </div>
@@ -89,24 +92,30 @@ const InfoUser = ({
             <div className="text-l font-bold">Mật khẩu hiện tại</div>
             <input
               type="password"
+              name="oldPass"
+              onChange={handleChangePass}
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
-              placeholder="••••••••"
+              placeholder="Mật khẩu hiện tại"
             />
           </div>
           <div>
             <div className="text-l font-bold">Mật khẩu mới</div>
             <input
               type="password"
+              name="newPass"
+              onChange={handleChangePass}
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
-              placeholder="••••••••"
+              placeholder="Mật khẩu mới"
             />
           </div>
           <div>
             <div className="text-l font-bold">Nhập lại mật khẩu mới</div>
             <input
               type="password"
+              name="confirmPass"
+              onChange={handleChangePass}
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
-              placeholder="••••••••"
+              placeholder="Xác nhận mật khẩu"
             />
           </div>
         </div>

@@ -12,6 +12,7 @@ export const ROUTERS = {
     LESSONPAGE: "/lesson",
   },
   ADMIN: {
-    LOGINADMIN: "/admin/loginAdmin",
+    LOGIN: "/admin/login",
+    ADMINPAGE: "/admin",
   },
 };

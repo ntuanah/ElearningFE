@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as profileService from "../../../service/profileService";
 import { useQuery } from "@tanstack/react-query";
 import TabSelect from "../../../components/Profile/TabSelect";
@@ -7,10 +7,12 @@ import InfoUser from "../../../components/Profile/InfoUser";
 import OrderHistory from "../../../components/Profile/OrderHistory";
 import MyCourse from "../../../components/Profile/MyCourse";
 import { toast } from "react-toastify";
+import { getToken } from "../../../utils/getToken";
+import { jwtDecode } from "jwt-decode";
 
 export default function Profile() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("info");
-  console.log("Active Tab:", activeTab);
   const handleOnTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -61,6 +63,44 @@ export default function Profile() {
       }
     } catch (error) {
       console.error("Error updating profile:", error);
+    }
+  };
+
+  const [formPass, setFormPass] = useState({
+    oldPass: "",
+    newPass: "",
+    confirmPass: "",
+  });
+
+  const handleChangePass = (e) => {
+    setFormPass({ ...formPass, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmitPass = async () => {
+    if (formPass.newPass !== formPass.confirmPass) {
+      toast.error("Mật khẩu xác nhận không khớp!");
+      return;
+    }
+
+    try {
+      const token = getToken();
+      const decoded = jwtDecode(token);
+
+      const res = await profileService.changePassword({
+        oldPassword: formPass.oldPass,
+        newPassword: formPass.newPass,
+      });
+
+      toast.success("Đổi mật khẩu thành công!");
+      navigate("/profile");
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data?.message || "Đổi mật khẩu thất bại!");
+      } else if (error.request) {
+        toast.error("Không nhận được phản hồi từ server!");
+      } else {
+        toast.error("Lỗi khi gửi yêu cầu đổi mật khẩu!");
+      }
     }
   };
 
@@ -214,6 +254,9 @@ export default function Profile() {
                 formData={formData}
                 handleOnChange={handleOnChange}
                 handleUpdateProfile={handleUpdateProfile}
+                formPass={formPass}
+                handleChangePass={handleChangePass}
+                handleSubmitPass={handleSubmitPass}
               />
             )}
             {activeTab === "history" && <OrderHistory />}

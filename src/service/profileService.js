@@ -26,3 +26,22 @@ export const updateProfile = async (profileData) => {
   );
   return res.data;
 };
+
+export const changePassword = async ({ oldPassword, newPassword }) => {
+  const token = getToken();
+  if (!token) return null;
+
+  const decoded = jwtDecode(token);
+  const userId = decoded.userId;
+
+  const res = await axios.post(
+    `${import.meta.env.VITE_API_URL}/users/profile/${userId}/change-password`,
+    { oldPassword, newPassword },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+};

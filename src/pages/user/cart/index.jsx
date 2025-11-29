@@ -28,7 +28,7 @@ const CartPage = () => {
 
   const countPrice = () => {
     if (!cartItems?.data) return 0;
-    ` return cartItems.data.reduce((sum, item) => sum + (item.price || 0), 0);`;
+    return cartItems.data.reduce((sum, item) => sum + (item.price || 0), 0);
   };
 
   const total = visible ? countPrice() : 0;
@@ -64,11 +64,6 @@ const CartPage = () => {
               <div className="flex justify-between">
                 <span>Tạm tính:</span>
                 <span>{total.toLocaleString()} ₫</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>Phí vận chuyển:</span>
-                <span>Miễn phí</span>
               </div>
 
               <div className="border-t border-red-200 pt-3 mt-2 flex justify-between font-semibold text-base text-gray-900">

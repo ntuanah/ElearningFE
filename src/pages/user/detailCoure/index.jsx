@@ -168,6 +168,142 @@ const DetailCourse = () => {
               <CourseModules key={ch.id} data={ch} />
             ))}
           </div>
+
+          <div>
+            <div className="pt-3 text-2xl font-bold"> Đánh giá</div>
+            <div className="mt-4">
+              <div className="flex items-center gap-1">
+                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+              </div>
+              <textarea
+                rows={2}
+                type="text"
+                name="rate"
+                className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
+                placeholder="Nhập đánh giá của bạn..."
+              />
+            </div>
+            <div className="flex items-center">
+              <Star className="w-5 h-5 fill-yellow-400 text-yellow-400 me-2" />
+              <p className="text-2xl font-bold me-2">5.0</p>
+              <div className="text-2xl font-bold">- 100 đánh giá</div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-6">
+              <div className="border-t border-red-200 pt-3 flex-1">
+                <div className="flex items-center">
+                  <img
+                    className="w-10 h-10 rounded-full  mb-4 border border-red-200"
+                    src={
+                      "https://static.vecteezy.com/system/resources/previews/024/766/958/non_2x/default-male-avatar-profile-icon-social-media-user-free-vector.jpg"
+                    }
+                    alt=""
+                  />
+                  <div className="ms-4">
+                    <div className="font-bold">Nguyen Tuan Anh</div>
+                    <div className="flex justify-between">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      </div>
+                      <div className="ms-2 text-gray-500">3 ngay truoc</div>
+                    </div>
+                  </div>
+                </div>
+                <div>khoa hoc rat huu ich</div>
+              </div>
+
+              <div className="border-t border-red-200 pt-3 flex-1">
+                <div className="flex items-center">
+                  <img
+                    className="w-10 h-10 rounded-full  mb-4 border border-red-200"
+                    src={
+                      "https://static.vecteezy.com/system/resources/previews/024/766/958/non_2x/default-male-avatar-profile-icon-social-media-user-free-vector.jpg"
+                    }
+                    alt=""
+                  />
+                  <div className="ms-4">
+                    <div className="font-bold">Nguyen Tuan Anh</div>
+                    <div className="flex justify-between">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      </div>
+                      <div className="ms-2 text-gray-500">3 ngay truoc</div>
+                    </div>
+                  </div>
+                </div>
+                <div>khoa hoc rat huu ich</div>
+              </div>
+
+              <div className="border-t border-red-200 pt-3 flex-1">
+                <div className="flex items-center">
+                  <img
+                    className="w-10 h-10 rounded-full  mb-4 border border-red-200"
+                    src={
+                      "https://static.vecteezy.com/system/resources/previews/024/766/958/non_2x/default-male-avatar-profile-icon-social-media-user-free-vector.jpg"
+                    }
+                    alt=""
+                  />
+                  <div className="ms-4">
+                    <div className="font-bold">Nguyen Tuan Anh</div>
+                    <div className="flex justify-between">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      </div>
+                      <div className="ms-2 text-gray-500">3 ngay truoc</div>
+                    </div>
+                  </div>
+                </div>
+                <div>khoa hoc rat huu ich</div>
+              </div>
+
+              <div className="border-t border-red-200 pt-3 flex-1">
+                <div className="flex items-center">
+                  <img
+                    className="w-10 h-10 rounded-full  mb-4 border border-red-200"
+                    src={
+                      "https://static.vecteezy.com/system/resources/previews/024/766/958/non_2x/default-male-avatar-profile-icon-social-media-user-free-vector.jpg"
+                    }
+                    alt=""
+                  />
+                  <div className="ms-4">
+                    <div className="font-bold">Nguyen Tuan Anh</div>
+                    <div className="flex justify-between">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      </div>
+                      <div className="ms-2 text-gray-500">3 ngay truoc</div>
+                    </div>
+                  </div>
+                </div>
+                <div>khoa hoc rat huu ich</div>
+              </div>
+            </div>
+
+            <div className="mt-6 ">
+              <button className="border border-red-200 py-2 px-4 rounded-xl bg-red-500 text-white font-bold hover:bg-red-600 transition">
+                Xem tất cả đánh giá
+              </button>
+            </div>
+          </div>
         </div>
       </section>
     </div>

@@ -18,6 +18,18 @@ export const getCourseById = async (id) => {
   return res.data?.data || null;
 };
 
+export const deleteCourseById = async (id) => {
+  const res = await axios.delete(
+    `${import.meta.env.VITE_API_URL}/courses/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data?.data || null;
+};
+
 export const getPopularCourses = async () => {
   const res = await axios.get(
     `${import.meta.env.VITE_API_URL}/courses/popular`
