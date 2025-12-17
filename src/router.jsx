@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
@@ -12,6 +12,8 @@ import ProfilePage from "./pages/user/profilePage";
 import LessonPage from "./pages/user/lessonPage";
 import EditProfile from "./pages/user/profilePage/editProfile";
 import ChangePassword from "./pages/user/profilePage/changePassword";
+import SuccessfulPayment from "./pages/user/successfulPayment";
+import PaymentFailed from "./pages/user/paymentFailed";
 
 import LoginAdmin from "./pages/admin/loginAdmin";
 import AdminPage from "./pages/admin/admin";
@@ -22,23 +24,28 @@ import { ROUTERS } from "./utils/router";
 const RouterCustom = () => {
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
 
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setRole(decoded.role || null);
-      } catch (error) {
-        console.error("Invalid token:", error);
-        setRole(null);
-      }
+    if (!token) {
+      setRole(null);
+      setLoading(false);
+      return;
     }
-    setLoading(false); // đã load xong token
-  }, []);
 
-  // 🚀 Quan trọng: Đừng render router khi còn loading
+    try {
+      const decoded = jwtDecode(token);
+      setRole(decoded.role || null);
+    } catch (error) {
+      console.error("Invalid token:", error);
+      setRole(null);
+    }
+
+    setLoading(false);
+  }, [location.pathname]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -59,22 +66,26 @@ const RouterCustom = () => {
           element={<ChangePassword />}
         />
         <Route path={ROUTERS.USER.LESSONPAGE} element={<LessonPage />} />
+        <Route path={ROUTERS.USER.SUCCESSFULPAYMENT} element={<SuccessfulPayment/>} />
+        <Route path={ROUTERS.USER.PAYMENTFAILED} element={<PaymentFailed/>} />
       </Routes>
     </MasterLayout>
   );
 
   return (
     <Routes>
-      <Route path="/*" element={userRouter} />
+      
 
       {/* ROUTES ADMIN */}
       <Route path="/admin/login" element={<LoginAdmin />} />
 
       {role === "ADMIN" ? (
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/*" element={<AdminPage />} />
       ) : (
-        <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
+        <Route path="/admin/*" element={<Navigate to="/admin/login" replace />} />
       )}
+
+      <Route path="/*" element={userRouter} />
     </Routes>
   );
 };

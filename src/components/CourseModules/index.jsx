@@ -1,8 +1,28 @@
 import { useState } from "react";
-import { BookOpen, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+  Lock,
+  PlayCircle,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const CourseModules = ({ data }) => {
+const CourseModules = ({ data, isEnrolled, courseSlug, currentLessonId }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLessonClick = (lesson) => {
+    const isFree = lesson.isFree === true || lesson.isFree === "true";
+    const enrolled = Boolean(isEnrolled);
+
+    if (enrolled || isFree) {
+      navigate(`/learning/${courseSlug}?lessonId=${lesson.id}`);
+    } else {
+      toast.info("Bạn cần mua khóa học để xem bài này!");
+    }
+  };
 
   return (
     <div className="border border-red-200  my-3 rounded-lg hover:border-red-500 transition-all">
@@ -33,21 +53,49 @@ const CourseModules = ({ data }) => {
       </div>
       {isOpen && (
         <div className="px-6 pb-3">
-          {data.lessons?.map((lesson) => (
-            <div
-              onClick={() => lesson.onClick && lesson.onClick()}
-              key={lesson.id}
-              className="flex justify-between items-center py-2 border-b border-gray-100 hover:bg-red-50 rounded-md px-2 transition-all"
-            >
-              <span className="text-sm text-gray-700">{lesson.title}</span>
-              <div>
-                <span className="text-xs text-gray-500 me-2">
-                  {lesson.duration}p
-                </span>
-                <input type="checkbox" className="accent-red-500 w-4 h-4" />
+          {data.lessons?.map((lesson) => {
+            const isFree = lesson.isFree === true || lesson.isFree === "true";
+            const enrolled = isEnrolled === true || isEnrolled === "true";
+            const canLearn = enrolled || isFree;
+
+            return (
+              <div
+                key={lesson.id}
+                onClick={() => handleLessonClick(lesson)}
+                className={`
+                flex justify-between items-center py-3 border-b border-gray-100 rounded-md px-2 transition-all
+                ${lesson.id === currentLessonId ? "bg-red-50" : ""}
+                ${
+                  canLearn
+                    ? "cursor-pointer hover:bg-red-50"
+                    : "cursor-not-allowed opacity-60 hover:bg-gray-50"
+                }
+              `}
+              >
+                <div className="flex items-center gap-3">
+                  {canLearn ? (
+                    <PlayCircle className="w-4 h-4 text-red-500" />
+                  ) : (
+                    <Lock className="w-4 h-4 text-gray-400" />
+                  )}
+
+                  <span
+                    className={`text-sm ${
+                      canLearn ? "text-gray-700 font-medium" : "text-gray-500"
+                    }`}
+                  >
+                    {lesson.title}
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-xs text-gray-500">
+                    {lesson.videoDuration}p
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

@@ -1,10 +1,10 @@
 import { Search } from "lucide-react";
 import { memo, useState } from "react";
 import ModalAddCategory from "../Modal/ModalAddCategory";
+import ListCategory from "./ListCategory";
 
 const Categories = () => {
-  const [openModalAdd, setOpenModalAdd] = useState(false);
-  console.log(openModalAdd)
+const [openModalAdd, setOpenModalAdd] = useState(false);  
   return (
     <div>
       <div className=" p-4 border-b border-red-200 shadow-sm flex items-center justify-between">
@@ -22,12 +22,12 @@ const Categories = () => {
           {" "}
           <button
           onClick={() => setOpenModalAdd(true)}
-           className="px-4 py-2 bg-red-500 rounded-2xl text-white font-bold">
+           className="px-4 py-2 bg-red-500 whitespace-nowrap rounded-2xl text-white font-bold">
             Thêm danh mục mới
           </button>
-          
         </div>
       </div>
+      <ListCategory />
       {openModalAdd && <ModalAddCategory onClose={() => setOpenModalAdd(false)}/>}
     </div>
   );

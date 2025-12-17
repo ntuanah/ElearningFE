@@ -52,7 +52,7 @@ const TabSelect = ({ activeTab, handleOnTabChange }) => {
           onClick={() => handleOnTabChange("categories")}
           className={`p-2 rounded-lg font-semibold 
           ${
-            activeTab === "orders"
+            activeTab === "categories"
               ? "bg-red-500 text-white"
               : "hover:bg-red-200 hover:text-white cursor-pointer"
           }`}

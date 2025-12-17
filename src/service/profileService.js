@@ -45,3 +45,28 @@ export const changePassword = async ({ oldPassword, newPassword }) => {
   );
   return res.data;
 };
+
+export const myCourse = async () => {
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/enrollments/my-courses`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+}
+
+export const getEnrollmentContent = async (slug) => {
+  const token = getToken();
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/enrollments/${slug}/content`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+};

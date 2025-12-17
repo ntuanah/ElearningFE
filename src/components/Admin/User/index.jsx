@@ -2,8 +2,15 @@ import { Edit, Trash2, MoreVertical, Search } from "lucide-react";
 import * as userService from "../../../service/admin/userService";
 import { useQuery } from "@tanstack/react-query";
 import { formatDate } from "../../../utils/formatterDate";
+import { useState } from "react";
+import UserInformation from "./UserInformation";
+import EditUser from "./EditUser";
 
 const Users = () => {
+  const [openInfo, setOpenInfo] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+
   const fetchUsers = async () => {
     const data = await userService.getAllUsers();
     return data;
@@ -47,8 +54,8 @@ const Users = () => {
               <tr key={u.id}>
                 <td className="py-3 px-4 flex items-center gap-3">
                   <img
-                    src={u.avatar}
-                    alt=""
+                    src={u.avatar || null}
+                    alt="avatar"
                     className="w-10 h-10 rounded-full border border-red-200"
                   />
                   <span className="font-bold">{u.name}</span>
@@ -76,13 +83,13 @@ const Users = () => {
                 </td>
                 <td className="py-3 px-4">
                   <div className="flex items-center justify-center gap-3 text-gray-500">
-                    <button className="hover:text-red-500">
+                    <button onClick={() => {setSelectedUserId(u.id); setOpenEdit(true)}}className="hover:text-red-500">
                       <Edit size={18} />
                     </button>
                     <button className="hover:text-red-500">
                       <Trash2 size={18} />
                     </button>
-                    <button className="hover:text-red-700">
+                    <button onClick={() => {setSelectedUserId(u.id); setOpenInfo(true)}} className="hover:text-red-700">
                       <MoreVertical size={18} />
                     </button>
                   </div>
@@ -92,6 +99,13 @@ const Users = () => {
           </tbody>
         </table>
       </div>
+
+      {openInfo && (
+        <UserInformation userId = {selectedUserId} onClose={() => setOpenInfo(false)} />
+      )}
+      {openEdit && (
+        <EditUser userId = {selectedUserId} onClose={() => setOpenEdit(false)} />
+      )}
     </div>
   );
 };

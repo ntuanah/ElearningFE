@@ -39,17 +39,17 @@ const HomePage = () => {
     <div>
       <HeroSection />
       <StatsSection />
-      <div className="relative overflow-hidden bg-gradient-to-br from-red-100 via-white to-white py-24 px-8 border-b border-red-200">
+      <div className="relative overflow-hidden bg-gradient-to-br from-red-100 via-white to-white py-24 px-8 md:py-24 md:px-8 border-b border-red-200">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-red-500 mb-6">
+          <h2 className="text-3xl md:text-5xl md:text-5xl font-bold text-red-500 mb-6">
             Những gì bạn sẽ đạt được
           </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto mb-16 leading-relaxed text-lg">
+          <p className="text-gray-600 max-w-3xl mx-auto mb-12 md:mb-16 leading-relaxed text-base md:text-lg">
             Sau khi hoàn thành các khóa học, bạn sẽ tự tin hơn với kỹ năng, tư
             duy và kiến thức vững chắc để chinh phục mục tiêu nghề nghiệp.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
             {[
               {
                 title: "Nâng cao kỹ năng",
@@ -74,7 +74,7 @@ const HomePage = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="flex flex-col justify-between h-full bg-white border border-red-100  rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all hover:-translate-y-2 text-center"
+                className="flex flex-col justify-between h-full bg-white border border-red-100  rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-lg transition-all hover:-translate-y-2 text-center"
               >
                 <h3 className="font-semibold text-lg text-red-500 mb-3 group-hover:text-red-500 transition-colors">
                   {item.title}
@@ -88,15 +88,15 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div ref={exploreRef} className="py-15 border-b border-red-200">
+      <div ref={exploreRef} className="py-12 md:py-15 border-b border-red-200 px-4 md:px-0">
         <div className="max-w-7xl mx-auto ">
-          <div className="flex justify-between">
+          <div className="flex flex-col md:flex-row justify-between">
             {" "}
-            <div className="mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <div className="mb-8 md:mb-12 text-center md:text-left">
+              <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-4">
                 Các khóa học phổ biến
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl">
+              <p className="text-base md:text-lg text-muted-foreground max-w-2xl">
                 Cập nhật các khóa học được quan tâm nhất, giúp bạn nhanh chóng
                 nâng cao kỹ năng và phát triển sự nghiệp trong thời đại số.
               </p>
@@ -105,15 +105,24 @@ const HomePage = () => {
 
           <div className="col-span-2">
             <Swiper
-              spaceBetween={10}
-              slidesPerView={4}
+              spaceBetween={16}
+              breakpoints={{
+                430: {
+                  slidesPerView: 1.2, // Mobile: Hiện 1 cái rưỡi để user biết lướt được
+                  spaceBetween: 10,
+                },
+                1024: {
+                  slidesPerView: 4, // Desktop
+                  spaceBetween: 30,
+                },
+              }}
               autoplay={{
-                delay: 1000,
+                delay: 2000,
                 disableOnInteraction: false,
               }}
               scrollbar={{ draggable: true }}
               modules={[Scrollbar, Autoplay]}
-              className="mySwiper"
+              className="mySwiper !pb-10"
             >
               <SwiperSlide className="p-2">
                 <PopularCourse />
@@ -151,10 +160,10 @@ const HomePage = () => {
             </Swiper>
           </div>
         </div>
-        <div className="flex justify-center mt-12">
+        <div className="flex justify-center mt-8 md:mt-12">
           <button
             onClick={() => navigate("/courses")}
-            className="flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-400 text-white px-8 py-3 rounded-lg text-lg font-semibold shadow-lg hover:shadow-xl hover:from-red-700 hover:to-red-700 transition-all duration-300"
+            className="flex items-center gap-2 bg-gradient-to-r from-red-500 to-red-400 text-white px-6 py-3 md:px-8 md:py-3 rounded-lg text-base md:text-lg font-semibold shadow-lg hover:shadow-xl hover:from-red-700 hover:to-red-700 transition-all duration-300"
           >
             Khám phá các khóa học
             <ArrowRight className="w-5 h-5" />

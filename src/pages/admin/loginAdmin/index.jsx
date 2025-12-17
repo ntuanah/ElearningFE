@@ -24,7 +24,6 @@ const LoginAdmin = () => {
     try {
       setIsLoading(true);
       const res = await authService.login(formData.email, formData.password);
-      console.log(res);
       if (res.success === true) {
         toast.success(res.message);
         localStorage.setItem("accessToken", res.data.accessToken);

@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 const Courses = () => {
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [editCourseId, setEditCourseId] = useState(null);
   const [openInfo, setOpenInfo] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
 
@@ -138,11 +139,15 @@ const Courses = () => {
         </table>
       </div>
 
-      {openAdd && <AddCourse onClose={() => setOpenAdd(false)} />}
+      {openAdd && <AddCourse onClose={() => setOpenAdd(false)} onOpenEdit={(id) => {
+          setEditCourseId(id);
+          setOpenEdit(true);
+        }} />}
       {openEdit && (
         <EditCourse
           courseId={selectedCourseId}
           onClose={() => setOpenEdit(false)}
+          
         />
       )}
       {openInfo && (

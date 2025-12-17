@@ -26,17 +26,17 @@ const testimonials = [
 
 export default function TestimonialsSection() {
   return (
-    <div className="py-20 bg-white border-b border-red-200">
+    <div className="py-12 md:py-20 bg-white border-b border-red-200">
       <div className="max-w-7xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-red-500 mb-10">
+        <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-8 md:mb-12 text-red-500">
           Cảm nhận học viên
         </h2>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 px-5 md:px-20">
           {testimonials.map((item, index) => (
             <div
               key={index}
-              className="p-8 border border-red-200 rounded-xl shadow-sm hover:shadow-lg transition"
+              className="p-6 md:p-8 border border-red-200 rounded-xl shadow-sm hover:shadow-lg transition"
             >
               <p className="text-gray-600 mb-4 text-sm italic">
                 "{item.review}"

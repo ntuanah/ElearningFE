@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
 import * as cartService from "../../../service/cartService";
 import { useQuery } from "@tanstack/react-query";
 import CartItem from "../../../components/Cart/CartItem";
+import * as paymentService from "../../../service/paymentService";
+import { toast } from "react-toastify";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -14,6 +15,26 @@ const CartPage = () => {
   const removeItem = () => setVisible(false);
   const clearCart = () => setVisible(false);
 
+  const handlePayment = async () => {
+  if (!cartItems?.data?.length) {
+    return toast.error("Giỏ hàng trống!");
+  }
+
+  try {
+    const res = await paymentService.createPayment({
+      amount: total,
+      orderInfo: "Thanh toán đơn hàng"
+    });
+
+    const url = res.data.paymentUrl;
+
+    window.location.href = url; 
+  } catch (err) {
+    toast.error("Lỗi khi tạo thanh toán!");
+  }
+};
+
+
   const fetchCartItems = async () => {
     const data = await cartService.getCartItems();
     return data;
@@ -21,7 +42,7 @@ const CartPage = () => {
 
   const { data: cartItems, refetch } = useQuery({
     queryKey: ["cart-items"],
-    queryFn: fetchCartItems,
+    queryFn: cartService.getCartItems,
   });
 
   console.log(cartItems?.data.length);
@@ -72,7 +93,7 @@ const CartPage = () => {
               </div>
             </div>
 
-            <button className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold mt-5 py-2.5 rounded-lg transition">
+            <button onClick={handlePayment} className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold mt-5 py-2.5 rounded-lg transition">
               Thanh toán
             </button>
 

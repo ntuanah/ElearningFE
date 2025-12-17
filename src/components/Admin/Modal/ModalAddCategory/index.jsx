@@ -1,6 +1,62 @@
-import { memo } from "react";
+import { memo, useState } from "react";
+import * as categoryService from "../../../../service/admin/categoryService";
+import { useQuery } from "@tanstack/react-query";
 
 const ModalAddCategory = ({ onClose }) => {
+  const [selectedParentId, setSelectedParentId] = useState();
+  console.log(selectedParentId);
+  const [formData, setFormData] = useState({
+    categoryName: "",
+    parentId: "",
+  });
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = async () => {
+    try {
+      let parentIdToUse;
+
+      if (selectedParentId === undefined || selectedParentId === "0") {
+        parentIdToUse = null; 
+      } else {
+        parentIdToUse = 2; 
+      }
+
+      const res = await categoryService.createCategory(
+        formData.categoryName,
+        parentIdToUse
+      );
+      console.log("Category created successfully:", res);
+    } catch (error) {
+      console.error("Error creating category:", error);
+    }
+  };
+
+  const fetchCategoriesTree = async () => {
+    const res = await categoryService.getAllCategoriesTree();  
+    return res;
+  }
+
+  const {data: categoriesTree = []} = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategoriesTree
+  })
+
+  const fetchCategories = async () => {
+    const res = await categoryService.getAllCategories();
+    return res;
+  }
+  
+  const {data: allCategories = []} = useQuery({
+    queryKey: ['all-categories'],
+    queryFn: fetchCategories
+  })
+
+  console.log("All Categories:", categoriesTree);
   return (
     <div
       className="fixed inset-0 bg-red/40 backdrop-blur-sm flex items-center justify-center py-10 z-50"
@@ -11,7 +67,7 @@ const ModalAddCategory = ({ onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-6">
-          <div className="font-bold text-2xl text-red-500">
+          <div className="font-bold text-2xl text-red-500 whitespace-nowrap">
             Thêm danh mục mới
           </div>
         </div>
@@ -20,29 +76,33 @@ const ModalAddCategory = ({ onClose }) => {
             <label className="text-l font-bold">Tên danh mục</label>
             <input
               type="text"
+              onChange={handleOnChange}
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
               placeholder="Nhập tên danh mục"
-              name="courseTitle"
+              name="categoryName"
             />
           </div>
 
           <select
-            name=""
-            id=""
+            value={selectedParentId}
+            onChange={(e) => setSelectedParentId(e.target.value)}
             className="border border-red-200 rounded-md py-3 px-4 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400 w-full"
           >
-            <option value="1">Chọn danh mục</option>
-            <option value="1">IP 16</option>
-            <option value="1">IP 19</option>
-            <option value="1">IP 30</option>
-            <option value="1">+ Thêm mới</option>
+            <option value="0">Chọn danh mục</option>
+            {categoriesTree?.data?.map((category) => (
+              <option key={category?.id} value={category?.id}>
+                {category?.name}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex gap-2 justify-end mt-6">
           <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-2xl">
             Đóng
           </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-2xl">
+          <button
+          onClick={handleSubmit}
+          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-2xl">
             Thêm mới
           </button>
         </div>

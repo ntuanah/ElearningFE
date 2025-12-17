@@ -1,82 +1,32 @@
-import { memo } from "react";
+import { memo, use } from "react";
 import { useState, useEffect } from "react";
 import Course from "../../Course";
+import OrderHistoryItem from "./OrderHistoryItem";
+import { useQuery } from "@tanstack/react-query";
+import * as paymentService from "../../../service/paymentService";
 
 const OrderHistory = () => {
-  const [courses, setCourses] = useState([
-    {
-      id: 1,
-      title: "Khóa học ReactJS từ cơ bản đến nâng cao",
-      instructorName: "Nguyễn Văn A",
-      thumbnail: "https://i.imgur.com/eY0nZQh.jpeg",
-      totalDuration: 12,
-      price: 0,
-      isFree: true,
-    },
-    {
-      id: 2,
-      title: "NextJS Masterclass 2024",
-      instructorName: "Trần Thị B",
-      thumbnail: "https://i.imgur.com/j7kVbUw.jpeg",
-      totalDuration: 20,
-      price: 499000,
-      isFree: false,
-    },
-    {
-      id: 1,
-      title: "Khóa học ReactJS từ cơ bản đến nâng cao",
-      instructorName: "Nguyễn Văn A",
-      thumbnail: "https://i.imgur.com/eY0nZQh.jpeg",
-      totalDuration: 12,
-      price: 0,
-      isFree: true,
-    },
-    {
-      id: 2,
-      title: "NextJS Masterclass 2024",
-      instructorName: "Trần Thị B",
-      thumbnail: "https://i.imgur.com/j7kVbUw.jpeg",
-      totalDuration: 20,
-      price: 499000,
-      isFree: false,
-    },
-    {
-      id: 1,
-      title: "Khóa học ReactJS từ cơ bản đến nâng cao",
-      instructorName: "Nguyễn Văn A",
-      thumbnail: "https://i.imgur.com/eY0nZQh.jpeg",
-      totalDuration: 12,
-      price: 0,
-      isFree: true,
-    },
-    {
-      id: 2,
-      title: "NextJS Masterclass 2024",
-      instructorName: "Trần Thị B",
-      thumbnail: "https://i.imgur.com/j7kVbUw.jpeg",
-      totalDuration: 20,
-      price: 499000,
-      isFree: false,
-    },
-  ]);
+  const fetchOrderHistory = async () => {
+    const res = await paymentService.orderHistory();
+    return res?.data || [];
+  }
+  
+
+  const {data: orderHistory = []} = useQuery({
+    queryKey: ["order-history"],
+    queryFn: fetchOrderHistory,
+  });
 
   return (
     <div className="p-6">
       <div className="text-2xl text-red-500 font-bold">Lịch sử mua </div>
 
-      {courses.length === 0 && (
-        <div className="mt-6 flex flex-col items-center justify-center p-10">
-          <div>Bạn chưa mua khoá học nào</div>
-        </div>
-      )}
+     
+        {orderHistory.map((order) => (
+          <OrderHistoryItem key={order.orderId} order={order} />
+        ))}
 
-      {courses.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-          {courses.map((course) => (
-            <Course key={course.id} data={course} />
-          ))}
-        </div>
-      )}
+      
     </div>
   );
 };

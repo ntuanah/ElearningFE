@@ -11,7 +11,7 @@ import Analytics from "../../../components/Admin/Analytics";
 import Categories from "../../../components/Admin/Categories";
 
 export default function Profile() {
-  const [activeTab, setActiveTab] = useState("info");
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   const handleOnTabChange = (tab) => {
     setActiveTab(tab);
@@ -36,7 +36,7 @@ export default function Profile() {
             <img
               className="w-24 h-24 rounded-full mx-auto mb-4 border border-red-200"
               src={userProfile.data.avatar}
-              alt=""
+              alt="avatar"
             />
             <div className="text-xl font-bold">{userProfile.data.fullName}</div>
             <div className="text-gray-500">{userProfile.data.email}</div>

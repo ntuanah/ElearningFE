@@ -9,7 +9,9 @@ export const ROUTERS = {
     PROFILEPAGE: "/profile",
     EDITPROFILE: "/profile/edit",
     CHANGEPASSWORD: "/profile/change-password",
-    LESSONPAGE: "/lesson",
+    LESSONPAGE: "/learning/:slug",
+    SUCCESSFULPAYMENT: "/payment-success",
+    PAYMENTFAILED: "/payment-failed",
   },
   ADMIN: {
     LOGIN: "/admin/login",

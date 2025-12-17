@@ -3,10 +3,18 @@ import { Search } from "lucide-react";
 import Logo from "../../../../assets/user/Logo.svg";
 import { getToken } from "../../../../utils/getToken";
 import Cookies from "js-cookie";
+import { useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
   const token = getToken();
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearch = (e) => {
+  if (e.key === "Enter") {
+    navigate(`/courses?search=${encodeURIComponent(searchText)}`);
+  }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -15,25 +23,28 @@ const Header = () => {
   };
   return (
     <header className="sticky top-0 z-50 border-b border-red-200 shadow-md shadow-red-50 bg-white">
-      <div className="max-w-7xl flex mx-auto items-center justify-between px-4 py-3">
+      <div className="max-w-7xl flex flex-wrap md:flex-nowrap mx-auto items-center justify-between px-4 py-3">
         <div className="">
           <img
             src={Logo}
             alt=""
-            className="w-[160px] h-[60px] cursor-pointer"
+            className="w-[120px] md:w-[160px] h-auto cursor-pointer"
             onClick={() => navigate("/")}
           />
         </div>
-        <div className="flex items-center w-full border border-red-400 rounded-full px-3 py-4 hover:bg-red-50 focus-within:!bg-white focus-within:ring-2 focus-within:ring-red-500 mx-4 cursor-pointer ">
+        <div className="order-last md:order-none w-full md:w-auto md:flex-1 flex items-center border border-red-400 rounded-full px-3 py-3 md:py-4 hover:bg-red-50 focus-within:!bg-white focus-within:ring-2 focus-within:ring-red-500 md:mx-4 cursor-pointer transition-all">
           <Search className="text-gray-500 me-2 " size={18} />
           <input
             type="text"
             placeholder="Tìm kiếm nội dung bất kỳ"
             className="flex-1 outline-none text-sm"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={handleSearch}
           />
         </div>
         <div className="flex space-x-2 items-center">
-          <div className="me-5 px-3 py-3 rounded-md hover:bg-red-100">
+          <div className="px-2 py-2 md:px-3 md:py-3 rounded-md hover:bg-red-100 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24px"
@@ -48,25 +59,25 @@ const Header = () => {
             </svg>
           </div>
           {!token ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3">
               <button
                 onClick={() => navigate("/login")}
-                className="font-bold px-5 py-3 border border-red-400 rounded-md text-sm hover:bg-red-50 hover:border-red-500 whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
+                className="font-bold px-3 py-2 md:px-5 md:py-3 border border-red-400 rounded-md text-xs md:text-sm hover:bg-red-50 hover:border-red-500 whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
               >
                 Đăng nhập
               </button>
               <button
                 onClick={() => navigate("/register")}
-                className="font-bold px-5 py-3 bg-red-500 text-white rounded-md text-sm hover:bg-red-400 border whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
+                className="font-bold px-3 py-2 md:px-5 md:py-3 bg-red-500 text-white rounded-md text-xs md:text-sm hover:bg-red-400 border whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
               >
                 Đăng ký
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3">
               <div
                 onClick={() => navigate("/profile")}
-                className="me-5 px-3 py-3 rounded-md hover:bg-red-100"
+                className="px-2 py-2 md:me-5 md:px-3 md:py-3 rounded-md hover:bg-red-100 cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +97,7 @@ const Header = () => {
               </div>
               <button
                 onClick={() => handleLogout()}
-                className="font-bold px-5 py-3 bg-red-500 text-white rounded-md text-sm hover:bg-red-400 border whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
+                className="font-bold px-3 py-2 md:px-5 md:py-3 bg-red-500 text-white rounded-md text-xs md:text-sm hover:bg-red-400 border whitespace-nowrap cursor-pointer hover:scale-[1.05] transition-all"
               >
                 Đăng xuất
               </button>

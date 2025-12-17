@@ -3,9 +3,9 @@ import { ROUTERS } from "../../../../utils/router";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-200 py-16">
-      <div className="max-w-5xl mx-auto px-8">
-        <div className="grid grid-cols-3 gap-12 mb-12 text-left">
+    <footer className="bg-gray-900 text-gray-200 py-10 md:py-16">
+      <div className="max-w-5xl mx-auto px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-8 md:mb-12 text-center md:text-left">
           <div>
             <h4 className="font-semibold text-white mb-4">Khóa học</h4>
             <ul className="space-y-2 text-sm text-gray-400">
@@ -14,7 +14,7 @@ const Footer = () => {
                   to={ROUTERS.USER.LOGINPAGE}
                   className="hover:text-white transition"
                 >
-                  Lập trình 1233
+                  Lập trình
                 </Link>
               </li>
               <li>
