@@ -45,8 +45,6 @@ const CartPage = () => {
     queryFn: cartService.getCartItems,
   });
 
-  console.log(cartItems?.data.length);
-
   const countPrice = () => {
     if (!cartItems?.data) return 0;
     return cartItems.data.reduce((sum, item) => sum + (item.price || 0), 0);

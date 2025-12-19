@@ -37,17 +37,18 @@ const InfoUser = ({
               placeholder="Tên của bạn..."
               name="fullName"
               onChange={handleOnChange}
-              value={formData.fullName}
+              value={formData.fullName || ""}
             />
           </div>
           <div>
             <div className="text-l font-bold">Email</div>
             <input
               type="text"
+              name="email"
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
               placeholder="Email của bạn..."
               readOnly
-              value={userProfile.data?.email}
+              value={userProfile.data?.email || ""}
             />
           </div>
           <div>
@@ -58,7 +59,7 @@ const InfoUser = ({
               placeholder="Số điện thoại của bạn..."
               name="phone"
               onChange={handleOnChange}
-              value={formData.phone}
+              value={formData.phone || ""}
             />
           </div>
           <div>
@@ -70,55 +71,66 @@ const InfoUser = ({
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
               placeholder="Nhập tiểu sử của bạn..."
               onChange={handleOnChange}
-              value={formData.bio}
+              value={formData.bio || ""}
             />
           </div>
         </div>
       </div>
 
       <div className="p-6 mt-2">
-        <div className="flex justify-between items-center mb-6">
-          <div className="font-bold text-2xl text-red-500">Đổi mật khẩu</div>
-          <div
-            onClick={handleSubmitPass}
-            className="bg-red-500 rounded-xl text-white p-2 hover:bg-red-600 cursor-pointer"
-          >
-            Cập nhật mật khẩu
-          </div>
-        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmitPass();
+          }}
+        >
+          <div className="flex justify-between items-center mb-6">
+            <div className="font-bold text-2xl text-red-500">Đổi mật khẩu</div>
 
-        <div>
+            <button
+              type="submit"
+              className="bg-red-500 rounded-xl text-white p-2 hover:bg-red-600"
+            >
+              Cập nhật mật khẩu
+            </button>
+          </div>
+
           <div>
             <div className="text-l font-bold">Mật khẩu hiện tại</div>
             <input
               type="password"
               name="oldPass"
               onChange={handleChangePass}
+              autoComplete="current-password"
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
               placeholder="Mật khẩu hiện tại"
             />
           </div>
+
           <div>
             <div className="text-l font-bold">Mật khẩu mới</div>
             <input
               type="password"
               name="newPass"
               onChange={handleChangePass}
+              autoComplete="new-password"
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
               placeholder="Mật khẩu mới"
             />
           </div>
+
           <div>
             <div className="text-l font-bold">Nhập lại mật khẩu mới</div>
             <input
               type="password"
               name="confirmPass"
               onChange={handleChangePass}
+              autoComplete="new-password"
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
               placeholder="Xác nhận mật khẩu"
             />
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

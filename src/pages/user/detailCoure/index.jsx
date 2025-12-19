@@ -15,7 +15,9 @@ import * as courseService from "../../../service/courseService";
 import * as cartService from "../../../service/cartService";
 import { toast } from "react-toastify";
 import * as reviewService from "../../../service/reviewService";
+import * as paymentService from "../../../service/paymentService";
 import { formatDate } from "../../../utils/formatterDate";
+import { getToken } from "../../../utils/getToken";
 
 const DetailCourse = () => {
 
@@ -68,6 +70,12 @@ const DetailCourse = () => {
   };
 
   const handleAddToCart = async () => {
+    const token = getToken();
+    if (!token) {
+      toast.info("Vui lòng đăng nhập để thực hiện chức năng này");
+      navigate("/login");
+      return;
+    }
     try {
       const res = await cartService.addCourseToCart(id);
       if (res.success === true) {

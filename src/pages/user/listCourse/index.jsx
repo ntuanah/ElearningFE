@@ -85,7 +85,6 @@ const ListCourse = () => {
       <div className="mx-auto px-4 md:px-0 w-full md:w-5/6 grid grid-cols-1 md:grid-cols-12 gap-8">
         <div className="col-span-1 md:col-span-3">
           
-          {/* Nút bật tắt bộ lọc chỉ hiện trên Mobile */}
           <button 
             className="md:hidden w-full flex items-center justify-center gap-2 bg-white border border-red-200 p-3 rounded-lg shadow-sm text-red-500 font-bold mb-4"
             onClick={() => setShowMobileFilter(!showMobileFilter)}
@@ -94,7 +93,6 @@ const ListCourse = () => {
             {showMobileFilter ? "Ẩn bộ lọc" : "Hiện bộ lọc tìm kiếm"}
           </button>
 
-          {/* Nội dung bộ lọc: Ẩn trên mobile trừ khi bấm nút, Luôn hiện trên desktop (md:block) */}
           <div className={`${showMobileFilter ? 'block' : 'hidden'} md:block bg-white rounded-xl shadow p-6 border border-red-200 h-fit md:mt-26`}>
             <div className="border-b border-red-200 pb-4 mb-6">
               <p className="font-bold text-foreground text-red-500 mb-3">Danh mục</p>
