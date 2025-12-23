@@ -1,5 +1,4 @@
 import { Edit, Trash2, MoreVertical, Plus, Star, Search } from "lucide-react";
-import AddCourse from "../AddCourse";
 import { useState } from "react";
 import EditCourse from "../EditCourse";
 import CourseInformation from "../CourseInformation";
@@ -7,8 +6,7 @@ import * as courseService from "../../../service/courseService";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-const Courses = () => {
-  const [openAdd, setOpenAdd] = useState(false);
+const Course = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [editCourseId, setEditCourseId] = useState(null);
   const [openInfo, setOpenInfo] = useState(false);
@@ -23,18 +21,24 @@ const Courses = () => {
     queryKey: ["admin-courses"],
     queryFn: fetchCourses,
   });
+
   const handleDeleteCourse = async (id) => {
-    try {
-      const res = await courseService.deleteCourseById(id);
-      console.log(res);
-      if (res.success === true) {
-        toast.success("Xóa khóa học thành công!");
-        refetch();
-      }
-    } catch (e) {
-      toast.error("Xóa khóa học thất bại!");
-    }
-  };
+  try {
+    await courseService.deleteCourseById(id);
+
+    toast.success("Xóa khóa học thành công!");
+
+    setOpenEdit(false);
+    setOpenInfo(false);
+    setSelectedCourseId(null);
+
+    refetch();
+  } catch (e) {
+    console.error(e);
+    toast.error("Xóa khóa học thất bại!");
+  }
+};
+
 
   const fCurrency = (n) => "₫" + n.toLocaleString("vi-VN");
   return (
@@ -50,12 +54,6 @@ const Courses = () => {
               className="flex-1 outline-none text-sm"
             />
           </div>
-          <button
-            onClick={() => setOpenAdd(true)}
-            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm text-bold"
-          >
-            <Plus size={16} /> Add Course
-          </button>
         </div>
       </div>
       <div>
@@ -136,11 +134,6 @@ const Courses = () => {
           </tbody>
         </table>
       </div>
-
-      {openAdd && <AddCourse onClose={() => setOpenAdd(false)} onOpenEdit={(id) => {
-          setEditCourseId(id);
-          setOpenEdit(true);
-        }} />}
       {openEdit && (
         <EditCourse
           courseId={selectedCourseId}
@@ -158,4 +151,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default Course;

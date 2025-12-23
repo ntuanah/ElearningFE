@@ -31,7 +31,7 @@ export const deleteCourseById = async (id) => {
       },
     }
   );
-  return res.data?.data || null;
+  return res.data;
 };
 
 export const updateCourseById = async (id, courseData) => {

@@ -4,9 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { formatDate } from "../../../utils/formatterDate";
 import { useState } from "react";
 import UserInformation from "./UserInformation";
-import EditUser from "./EditUser";
 
-const Users = () => {
+const Students = () => {
   const [openInfo, setOpenInfo] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -25,7 +24,7 @@ const Users = () => {
   return (
     <div>
       <div className=" p-4 border-b border-red-200 shadow-sm flex items-center justify-between">
-        <div className="font-bold text-2xl text-red-500">Tất cả người dùng</div>
+        <div className="font-bold text-2xl text-red-500">Tất cả học viên</div>
         <div className="flex items-center border border-red-400 rounded-full px-3 py-4 hover:bg-red-50 focus-within:!bg-white focus-within:ring-2 focus-within:ring-red-500 mx-4 cursor-pointer ">
           <Search className="text-gray-500 me-2 " size={18} />
           <input
@@ -82,13 +81,7 @@ const Users = () => {
                   )}
                 </td>
                 <td className="py-3 px-4">
-                  <div className="flex items-center justify-center gap-3 text-gray-500">
-                    <button onClick={() => {setSelectedUserId(u.id); setOpenEdit(true)}}className="hover:text-red-500">
-                      <Edit size={18} />
-                    </button>
-                    <button className="hover:text-red-500">
-                      <Trash2 size={18} />
-                    </button>
+                  <div className="flex items-center gap-3 text-gray-500">
                     <button onClick={() => {setSelectedUserId(u.id); setOpenInfo(true)}} className="hover:text-red-700">
                       <MoreVertical size={18} />
                     </button>
@@ -103,11 +96,8 @@ const Users = () => {
       {openInfo && (
         <UserInformation userId = {selectedUserId} onClose={() => setOpenInfo(false)} />
       )}
-      {openEdit && (
-        <EditUser userId = {selectedUserId} onClose={() => setOpenEdit(false)} />
-      )}
     </div>
   );
 };
 
-export default Users;
+export default Students;

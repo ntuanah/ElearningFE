@@ -17,4 +17,8 @@ export const ROUTERS = {
     LOGIN: "/admin/login",
     ADMINPAGE: "/admin",
   },
+  INSTRUCTOR: {
+    LOGIN: "/instructor/login",
+    INSTRUCTORPAGE: "/instructor",
+  },
 };

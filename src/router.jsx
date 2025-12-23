@@ -20,6 +20,8 @@ import AdminPage from "./pages/admin/admin";
 import MasterLayout from "./pages/user/theme/masterLayout";
 
 import { ROUTERS } from "./utils/router";
+import LoginInstructor from "./pages/instructor/loginInstructor";
+import Instructor from "./pages/instructor/instructor";
 
 const RouterCustom = () => {
   const [role, setRole] = useState(null);
@@ -76,13 +78,25 @@ const RouterCustom = () => {
     <Routes>
       
 
-      {/* ROUTES ADMIN */}
-      <Route path="/admin/login" element={<LoginAdmin />} />
-
+      <Route path={ROUTERS.ADMIN.LOGIN} element={<LoginAdmin />} />
       {role === "ADMIN" ? (
         <Route path="/admin/*" element={<AdminPage />} />
       ) : (
-        <Route path="/admin/*" element={<Navigate to="/admin/login" replace />} />
+        <Route
+          path="/admin/*"
+          element={<Navigate to={ROUTERS.ADMIN.LOGIN} replace />}
+        />
+      )}
+
+      {/* INSTRUCTOR */}
+      <Route path={ROUTERS.INSTRUCTOR.LOGIN} element={<LoginInstructor />} />
+      {role === "INSTRUCTOR" ? (
+        <Route path="/instructor/*" element={<Instructor />} />
+      ) : (
+        <Route
+          path="/instructor/*"
+          element={<Navigate to={ROUTERS.INSTRUCTOR.LOGIN} replace />}
+        />
       )}
 
       <Route path="/*" element={userRouter} />

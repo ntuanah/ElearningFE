@@ -1,8 +1,7 @@
 import { memo } from "react";
 import { getUserId } from "../../../utils/getUserId";
-import * as profileService from "../../../service/profileService";
 
-const InfoUser = ({
+const Information = ({
   userProfile,
   handleOnChange,
   handleUpdateProfile,
@@ -11,7 +10,8 @@ const InfoUser = ({
   handleChangePass,
   handleSubmitPass,
 }) => {
-  const userId = getUserId();
+    const userId = getUserId();
+    
 
   return (
     <div>
@@ -20,10 +20,7 @@ const InfoUser = ({
           <div className="font-bold text-2xl text-red-500">
             Thông tin cá nhân
           </div>
-          <div
-            className="bg-red-500 rounded-xl text-white p-2 hover:bg-red-600 cursor-pointer"
-            onClick={handleUpdateProfile}
-          >
+          <div className="bg-red-500 rounded-xl text-white p-2 hover:bg-red-600 cursor-pointer" onClick={handleUpdateProfile}>
             Lưu chỉnh sửa
           </div>
         </div>
@@ -40,6 +37,7 @@ const InfoUser = ({
               value={formData.fullName || ""}
             />
           </div>
+
           <div>
             <div className="text-l font-bold">Email</div>
             <input
@@ -51,6 +49,7 @@ const InfoUser = ({
               value={userProfile.data?.email || ""}
             />
           </div>
+
           <div>
             <div className="text-l font-bold">Số điện thoại</div>
             <input
@@ -62,14 +61,15 @@ const InfoUser = ({
               value={formData.phone || ""}
             />
           </div>
+
           <div>
             <div className="text-l font-bold">Tiểu sử</div>
             <textarea
               rows={3}
               type="text"
-              name="bio"
               className="w-full border border-red-200 rounded-md py-3 pl-6 mt-2 mb-4 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-400"
               placeholder="Nhập tiểu sử của bạn..."
+              name="bio"
               onChange={handleOnChange}
               value={formData.bio || ""}
             />
@@ -136,4 +136,4 @@ const InfoUser = ({
   );
 };
 
-export default memo(InfoUser);
+export default memo(Information);

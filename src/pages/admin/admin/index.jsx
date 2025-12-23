@@ -1,8 +1,5 @@
 import { useState } from "react";
 import TabSelect from "../../../components/Admin/TabSelect";
-import InfoUser from "../../../components/Profile/InfoUser";
-import OrderHistory from "../../../components/Profile/OrderHistory";
-import MyCourse from "../../../components/Profile/MyCourse";
 import Dashboard from "../../../components/Admin/Dashboard";
 import Courses from "../../../components/Admin/Courses";
 import Users from "../../../components/Admin/User";
@@ -10,7 +7,7 @@ import Orders from "../../../components/Admin/Orders";
 import Analytics from "../../../components/Admin/Analytics";
 import Categories from "../../../components/Admin/Categories";
 
-export default function Profile() {
+export default function Admin() {
   const [activeTab, setActiveTab] = useState("dashboard");
 
   const handleOnTabChange = (tab) => {
