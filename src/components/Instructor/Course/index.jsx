@@ -5,22 +5,29 @@ import CourseInformation from "../CourseInformation";
 import * as courseService from "../../../service/courseService";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import Students from "../Students";
 
 const Course = () => {
+  const [page,setPage] = useState(0);
+  const [size,setSize] = useState(10);
   const [openEdit, setOpenEdit] = useState(false);
   const [editCourseId, setEditCourseId] = useState(null);
   const [openInfo, setOpenInfo] = useState(false);
+  const [openStudents, setOpenStudents] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
 
-  const fetchCourses = async () => {
-    const data = await courseService.getAllCourses();
+  const fetchCourses = async (page, size) => {
+    const data = await courseService.getAllCourses(page, size);
     return data;
   };
 
   const { data: courses = [], refetch } = useQuery({
-    queryKey: ["admin-courses"],
-    queryFn: fetchCourses,
+    queryKey: ["admin-courses", page, size],
+    queryFn: () => fetchCourses(page, size),
   });
+
+  const courseList = courses?.data?.content || [];
+  const totalPages = courses?.data?.totalPages || 1;
 
   const handleDeleteCourse = async (id) => {
   try {
@@ -60,13 +67,13 @@ const Course = () => {
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-100 border-b border-red-200 text-red-400 text-sm">
             <tr>
-              <th className="py-3 px-4">COURSE</th>
-              <th className="py-3 px-4">INSTRUCTOR</th>
-              <th className="py-3 px-4">STUDENTS</th>
-              <th className="py-3 px-4">REVENUE</th>
-              <th className="py-3 px-4">RATING</th>
-              <th className="py-3 px-4">STATUS</th>
-              <th className="py-3 px-4">ACTIONS</th>
+              <th className="py-3 px-4">Khoá học</th>
+              <th className="py-3 px-4">Giảng viên</th>
+              <th className="py-3 px-4">Đánh giá</th>
+              <th className="py-3 px-4">Trạng thái</th>
+              <th className="py-3 px-4">Hành động</th>
+              <th className="py-3 px-4">Học viên</th>
+
             </tr>
           </thead>
           <tbody className="divide-y divide-red-200 ">
@@ -83,10 +90,7 @@ const Course = () => {
                 <td className="py-4 px-4 text-gray-500 truncate">
                   {c.instructorName}
                 </td>
-                <td className="py-3 px-4 font-semibold">{c.students}</td>
-                <td className="py-3 px-4 font-semibold">
-                  {fCurrency(c.price)}
-                </td>
+                
                 <td className="py-3 px-4 align-middle whitespace-nowrap">
                   <div className="flex items-center gap-1">
                     <Star
@@ -129,11 +133,69 @@ const Course = () => {
                     </button>
                   </div>
                 </td>
+
+                <td>
+                  <button onClick={() => {
+                        setSelectedCourseId(c.id);
+                        setOpenStudents(true);
+                      }} className="font-semibold text-sm text-white bg-red-500 hover:bg-red-600 rounded-full px-4 py-1 truncate">Học viên</button>
+                </td>
               </tr>
             ))}
+
           </tbody>
         </table>
       </div>
+
+      <div className="flex items-center space-x-1 justify-center mt-6">
+        <button
+          onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          disabled={page === 0}
+          className="px-4 py-2 bg-gray-100 rounded hover:bg-red-200 disabled:opacity-50"
+        >
+          Trước
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => i)
+          .filter(
+            (n) =>
+              n === 0 ||
+              n === totalPages - 1 ||
+              (n >= page - 2 && n <= page + 2)
+          )
+          .map((n, idx, arr) => {
+            const isEllipsis =
+              idx > 0 && n !== arr[idx - 1] + 1;
+
+            return (
+              <span key={n} className="flex items-center">
+                {isEllipsis && <span className="px-2">...</span>}
+                <button
+                  onClick={() => setPage(n)}
+                  className={`w-8 h-8 rounded ${
+                    page === n
+                      ? "bg-red-500 text-white"
+                      : "bg-gray-100 hover:bg-red-200"
+                  }`}
+                >
+                  {n + 1}
+                </button>
+              </span>
+            );
+          })}
+
+        <button
+          onClick={() =>
+            setPage((p) => Math.min(p + 1, totalPages - 1))
+          }
+          disabled={page === totalPages - 1}
+          className="px-4 py-2 bg-gray-100 rounded hover:bg-red-200 disabled:opacity-50"
+        >
+          Sau
+        </button>
+      </div>
+
+
       {openEdit && (
         <EditCourse
           courseId={selectedCourseId}
@@ -141,10 +203,18 @@ const Course = () => {
           
         />
       )}
+
       {openInfo && (
         <CourseInformation
           courseId={selectedCourseId}
           onClose={() => setOpenInfo(false)}
+        />
+      )}
+
+      {openStudents && (
+        <Students
+          courseId={selectedCourseId}
+          onClose={() => setOpenStudents(false)}
         />
       )}
     </div>

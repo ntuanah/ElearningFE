@@ -3,7 +3,6 @@ import TabSelect from "../../../components/Instructor/TabSelect";
 import Information from "../../../components/Instructor/Information";
 import Course from "../../../components/Instructor/Course";
 import CreateCourse from "../../../components/Instructor/CreateCourse";
-import Students from "../../../components/Instructor/Students";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import * as profileService from "../../../service/profileService";
@@ -144,7 +143,6 @@ export default function Instructor() {
           )}
           {activeTab === "course" && <Course />}
           {activeTab === "create-course" && <CreateCourse />}
-          {activeTab === "students" && <Students />}
         </div>
       </div>
     </div>

@@ -140,3 +140,15 @@ export const deleteLesson = async (lessonId) => {
   );
   return res.data;
 };
+
+export const getStudentsByCourseId = async (courseId) => {
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/enrollments/course/${courseId}/students`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+}

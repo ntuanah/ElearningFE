@@ -27,17 +27,6 @@ const TabSelect = ({ activeTab, handleOnTabChange }) => {
         >
           Tạo khoá học
         </li>
-        <li
-          onClick={() => handleOnTabChange("students")}
-          className={`p-2 rounded-lg font-semibold 
-          ${
-            activeTab === "students"
-              ? "bg-red-500 text-white"
-              : "hover:bg-red-200 hover:text-white cursor-pointer"
-          }`}
-        >
-          Học viên       
-        </li>
 
         <li
           onClick={() => handleOnTabChange("info")}
