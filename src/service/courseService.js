@@ -53,3 +53,21 @@ export const getPopularCourses = async () => {
   );
   return res.data?.content || [];
 };
+
+export const updateLessonProgress = async ({
+  courseId,
+  lessonId,
+  completed,
+}) => {
+  const res = await axios.post(
+    `${import.meta.env.VITE_API_URL}/progress/lesson`,
+    { courseId, lessonId, completed },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+};
+

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   BookOpen,
+  CheckCircle,
   ChevronDown,
   ChevronUp,
   Lock,
@@ -23,6 +24,7 @@ const CourseModules = ({ data, isEnrolled, courseSlug, currentLessonId }) => {
       toast.info("Bạn cần mua khóa học để xem bài này!");
     }
   };
+
 
   return (
     <div className="border border-red-200  my-3 rounded-lg hover:border-red-500 transition-all">
@@ -73,7 +75,9 @@ const CourseModules = ({ data, isEnrolled, courseSlug, currentLessonId }) => {
               `}
               >
                 <div className="flex items-center gap-3">
-                  {canLearn ? (
+                  {lesson.completed ? (
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                  ) : canLearn ? (
                     <PlayCircle className="w-4 h-4 text-red-500" />
                   ) : (
                     <Lock className="w-4 h-4 text-gray-400" />
