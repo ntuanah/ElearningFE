@@ -31,6 +31,15 @@ const HomePage = () => {
     queryFn: fetechCourses,
   });
 
+  const fetchPopularCourses = async () => {
+    return await courseService.getPopularCourses(8);
+  };
+
+  const { data: popularCourses = [] } = useQuery({
+    queryKey: ["popularCourses"],
+    queryFn: fetchPopularCourses,
+  });
+
   if (isLoading) {
     return <p className="text-center py-10">Đang tải khóa học...</p>;
   }
@@ -88,7 +97,10 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div ref={exploreRef} className="py-12 md:py-15 border-b border-red-200 px-4 md:px-0">
+      <div
+        ref={exploreRef}
+        className="py-12 md:py-15 border-b border-red-200 px-4 md:px-0"
+      >
         <div className="max-w-7xl mx-auto ">
           <div className="flex flex-col md:flex-row justify-between">
             {" "}
@@ -107,56 +119,18 @@ const HomePage = () => {
             <Swiper
               spaceBetween={16}
               breakpoints={{
-                430: {
-                  slidesPerView: 1.2, // Mobile: Hiện 1 cái rưỡi để user biết lướt được
-                  spaceBetween: 10,
-                },
-                1024: {
-                  slidesPerView: 4, // Desktop
-                  spaceBetween: 30,
-                },
+                430: { slidesPerView: 1.2 },
+                1024: { slidesPerView: 4 },
               }}
-              autoplay={{
-                delay: 2000,
-                disableOnInteraction: false,
-              }}
-              scrollbar={{ draggable: true }}
+              autoplay={{ delay: 2000, disableOnInteraction: false }}
               modules={[Scrollbar, Autoplay]}
               className="mySwiper !pb-10"
             >
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
-              <SwiperSlide className="p-2">
-                <PopularCourse />
-              </SwiperSlide>
+              {popularCourses.map((course) => (
+                <SwiperSlide key={course.id} className="p-2">
+                  <PopularCourse course={course} />
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
         </div>

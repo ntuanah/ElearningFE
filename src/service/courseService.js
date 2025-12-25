@@ -47,11 +47,14 @@ export const updateCourseById = async (id, courseData) => {
   return res.data?.data || null;
 };
 
-export const getPopularCourses = async () => {
+export const getPopularCourses = async (limit = 8) => {
   const res = await axios.get(
-    `${import.meta.env.VITE_API_URL}/courses/popular`
+    `${import.meta.env.VITE_API_URL}/courses/popular`,
+    {
+      params: { limit }
+    }
   );
-  return res.data?.content || [];
+  return res.data?.data || [];
 };
 
 export const updateLessonProgress = async ({

@@ -1,38 +1,34 @@
-import React from "react";
-import { Users, Star, Clock } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import * as courseService from "../../service/courseService";
+import { Star, Users } from "lucide-react";
 
-const PopularCourse = () => {
-  const fetchPopolarCourse = async () => {
-    const data = await courseService.getPopularCourses();
-    return data;
-  };
-
-  const { data: popularCourses = [] } = useQuery({
-    queryKey: ["popularCourses"],
-    queryFn: fetchPopolarCourse,
-  });
-
-  const course = popularCourses[0] || {};
-
+const PopularCourse = ({ course }) => {
   return (
     <div className="w-72 rounded-3xl overflow-hidden hover:scale-105 transition-all cursor-pointer bg-white border border-red-200">
       <div className="p-2">
         <img
           src={
             course.thumbnail ||
-            "https://placehold.co/400x400?text=No+Thumbnail&font=roboto"
+            "https://placehold.co/400x400?text=No+Thumbnail"
           }
-          alt={course.title || "Course"}
+          alt={course.title}
           className="w-full h-56 object-cover rounded-2xl"
         />
       </div>
 
       <div className="px-5 pb-5">
-        <h3 className="object-cover text-gray-900 font-semibold text-base truncate overflow-hidden whitespace-nowrap">
-          {course.title || "Tên khóa học"}
+        <h3 className="text-gray-900 font-semibold text-base truncate">
+          {course.title}
         </h3>
+
+        <div className="flex items-center justify-between mt-2 text-sm text-gray-500">
+          <div className="flex items-center gap-1">
+            <Users className="w-4 h-4" />
+            {course.enrollmentCount}
+          </div>
+          <div className="flex items-center gap-1">
+            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            {course.averageRating}
+          </div>
+        </div>
       </div>
     </div>
   );
