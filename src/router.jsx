@@ -90,7 +90,7 @@ const RouterCustom = () => {
 
       {/* INSTRUCTOR */}
       <Route path={ROUTERS.INSTRUCTOR.LOGIN} element={<LoginInstructor />} />
-      {role === "ADMIN" ? (
+      {role === "INSTRUCTOR" ? (
         <Route path="/instructor/*" element={<Instructor />} />
       ) : (
         <Route
