@@ -8,27 +8,36 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 const Courses = () => {
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [editCourseId, setEditCourseId] = useState(null);
   const [openInfo, setOpenInfo] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
 
-  const fetchCourses = async () => {
-    const data = await courseService.getAllCourses();
+  const fetchCourses = async (page, size) => {
+    const data = await courseService.getAllCourses(page, size);
     return data;
   };
 
   const { data: courses = [], refetch } = useQuery({
-    queryKey: ["admin-courses"],
-    queryFn: fetchCourses,
+    queryKey: ["admin-courses", page, size],
+    queryFn: () => fetchCourses(page, size),
   });
+
+  const courseList = courses?.data?.content || [];
+  const totalPages = courses?.data?.totalPages || 1;
+
   const handleDeleteCourse = async (id) => {
     try {
       const res = await courseService.deleteCourseById(id);
       console.log(res);
       if (res.success === true) {
         toast.success("Xóa khóa học thành công!");
+        setOpenEdit(false);
+        setOpenInfo(false);
+        setSelectedCourseId(null);
         refetch();
       }
     } catch (e) {
@@ -85,7 +94,7 @@ const Courses = () => {
                 <td className="py-4 px-4 text-gray-500 truncate">
                   {c.instructorName}
                 </td>
-                <td className="py-3 px-4 font-semibold">{c.students}</td>
+                <td className="py-3 px-4 font-semibold">{c.enrollmentCount}</td>
                 <td className="py-3 px-4 font-semibold">
                   {fCurrency(c.price)}
                 </td>
@@ -135,6 +144,54 @@ const Courses = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex items-center space-x-1 justify-center mt-6">
+        <button
+          onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          disabled={page === 0}
+          className="px-4 py-2 bg-gray-100 rounded hover:bg-red-200 disabled:opacity-50"
+        >
+          Trước
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => i)
+          .filter(
+            (n) =>
+              n === 0 ||
+              n === totalPages - 1 ||
+              (n >= page - 2 && n <= page + 2)
+          )
+          .map((n, idx, arr) => {
+            const isEllipsis =
+              idx > 0 && n !== arr[idx - 1] + 1;
+
+            return (
+              <span key={n} className="flex items-center">
+                {isEllipsis && <span className="px-2">...</span>}
+                <button
+                  onClick={() => setPage(n)}
+                  className={`w-8 h-8 rounded ${
+                    page === n
+                      ? "bg-red-500 text-white"
+                      : "bg-gray-100 hover:bg-red-200"
+                  }`}
+                >
+                  {n + 1}
+                </button>
+              </span>
+            );
+          })}
+
+        <button
+          onClick={() =>
+            setPage((p) => Math.min(p + 1, totalPages - 1))
+          }
+          disabled={page === totalPages - 1}
+          className="px-4 py-2 bg-gray-100 rounded hover:bg-red-200 disabled:opacity-50"
+        >
+          Sau
+        </button>
       </div>
 
       {openAdd && <AddCourse onClose={() => setOpenAdd(false)} onOpenEdit={(id) => {

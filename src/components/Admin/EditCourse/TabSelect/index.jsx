@@ -13,16 +13,6 @@ const TabSelect = ({activeTab, handleOnTabChange}) => {
             Chương trình giảng dạy
         </div>
 
-        <div onClick={() => handleOnTabChange("whatStudentsWillLearn")}
-          className={`p-2 rounded-lg font-semibold 
-          ${
-            activeTab === "whatStudentsWillLearn"
-              ? "bg-red-500 text-white"
-              : "hover:bg-red-200 hover:text-white cursor-pointer"
-          }`}>
-            Học sinh sẽ học được
-        </div>
-
         <div onClick={() => handleOnTabChange("courseSetting")}
           className={`p-2 rounded-lg font-semibold 
           ${

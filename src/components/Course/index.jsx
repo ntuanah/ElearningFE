@@ -28,9 +28,9 @@ const Course = ({ data }) => {
         <div className="flex items-center gap-2">
           <div className="flex items-center bg-yellow-50 px-2 py-1 rounded">
             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-            <span className="ml-1 font-semibold text-sm">4.8</span>
+            <span className="ml-1 font-semibold text-sm">{data.averageRating}</span>
           </div>
-          <span className="text-xs text-gray-500">(12,345)</span>
+          <span className="text-xs text-gray-500">{data.enrollmentCount}</span>
         </div>
 
         <div className="flex items-center gap-5 text-xs text-gray-500">

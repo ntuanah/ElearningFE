@@ -20,8 +20,6 @@ import { formatDate } from "../../../utils/formatterDate";
 import { getToken } from "../../../utils/getToken";
 
 const DetailCourse = () => {
-
-
   const [coupon, setCoupon] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
@@ -115,7 +113,9 @@ const DetailCourse = () => {
       <div className="bg-gradient-to-br from-red-100 via-white to-red-50 py-8 md:py-16 border-b border-red-200">
         <div className="max-w-6xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
           <div className="space-y-4 md:space-y-6 order-2 md:order-1">
-            <h1 className="text-3xl md:text-4xl font-bold leading-tight">{courseDetail.title}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold leading-tight">
+              {courseDetail.title}
+            </h1>
 
             <p className="text-gray-600 text-base md:text-lg leading-relaxed">
               {courseDetail.shortDescription}
@@ -206,15 +206,10 @@ const DetailCourse = () => {
           <div>
             <h2 className="text-2xl font-bold mb-4">Bạn sẽ học được gì</h2>
             <div className="space-y-3">
-              {courseDetail.objectives?.split(",").map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-3 bg-red-50 p-3 rounded-lg border border-red-200"
-                >
-                  <CheckCircle className="w-5 h-5 text-red-500 mt-1" />
-                  <p>{item}</p>
-                </div>
-              ))}
+              <div className="flex items-start gap-3 bg-red-50 p-3 rounded-lg border border-red-200">
+                <CheckCircle className="w-5 h-5 text-red-500 mt-1" />
+                <p>{courseDetail.objectives}</p>
+              </div>
             </div>
           </div>
 

@@ -2,7 +2,6 @@ import { Book, Clock, Plus, Users } from "lucide-react";
 import * as courseService from "../../../service/courseService";
 import { useQuery } from "@tanstack/react-query";
 import TabSelect from "./TabSelect";
-import WhatStudentsWillLearn from "./whatStudentWillLearn";
 import CourseSetting from "./CourseSetting";
 import CourseCurriculum from "./CourseCurriculum";
 import { useState } from "react";
@@ -20,9 +19,13 @@ const EditCourse = ({ onClose, courseId }) => {
     return data;
   };
 
-  const { data: courseDetails = [] } = useQuery({
+  const {
+    data: courseDetails,
+    isLoading,
+  } = useQuery({
     queryKey: ["course-details", courseId],
     queryFn: fetchCourseDetails,
+    enabled: !!courseId,
   });
 
 
@@ -45,9 +48,17 @@ const EditCourse = ({ onClose, courseId }) => {
           /> 
 
           <div className="w-full bg-white  rounded-xl shadow-md border border-red-200">
-          {activeTab === "courseCurriculum" && <CourseCurriculum/>}
-          {activeTab === "whatStudentsWillLearn" && <WhatStudentsWillLearn/>}
-          {activeTab === "courseSetting" && <CourseSetting/>}
+          {!isLoading && courseDetails && (
+            <>
+              {activeTab === "courseCurriculum" && (
+                <CourseCurriculum course={courseDetails} />
+              )}
+
+              {activeTab === "courseSetting" && (
+                <CourseSetting course={courseDetails} />
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

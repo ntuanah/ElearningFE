@@ -1,6 +1,7 @@
 import { memo, useState } from "react";
 import * as categoryService from "../../../../service/admin/categoryService";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const ModalAddCategory = ({ onClose }) => {
   const [selectedParentId, setSelectedParentId] = useState();
@@ -16,25 +17,33 @@ const ModalAddCategory = ({ onClose }) => {
       [name]: value,
     }));
   };
-  const handleSubmit = async () => {
-    try {
-      let parentIdToUse;
 
-      if (selectedParentId === undefined || selectedParentId === "0") {
-        parentIdToUse = null; 
-      } else {
-        parentIdToUse = 2; 
-      }
+const handleSubmit = async () => {
+  try {
+    let parentIdToUse = null;
 
-      const res = await categoryService.createCategory(
-        formData.categoryName,
-        parentIdToUse
-      );
-      console.log("Category created successfully:", res);
-    } catch (error) {
-      console.error("Error creating category:", error);
+    if (selectedParentId && selectedParentId !== "0") {
+      parentIdToUse = Number(selectedParentId);
     }
-  };
+
+    const res = await categoryService.createCategory(
+      formData.categoryName,
+      parentIdToUse
+    );
+
+    if (res?.success) {
+      toast.success("Thêm danh mục thành công");
+      onClose();
+    } else {
+      toast.error(res?.message || "Thêm danh mục thất bại");
+    }
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại"
+    );
+  }
+};
+
 
   const fetchCategoriesTree = async () => {
     const res = await categoryService.getAllCategoriesTree();  
@@ -97,9 +106,6 @@ const ModalAddCategory = ({ onClose }) => {
           </select>
         </div>
         <div className="flex gap-2 justify-end mt-6">
-          <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-2xl">
-            Đóng
-          </button>
           <button
           onClick={handleSubmit}
           className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-2xl">

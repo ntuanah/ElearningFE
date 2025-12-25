@@ -1,24 +1,24 @@
 import { memo, useState } from "react";
 import * as categoryService from "../../../../service/admin/categoryService";
 import { toast } from "react-toastify";
+import ModalUpdateCategory from "../../Modal/ModalUpdateCategory";
 
 const CategoryCard = ({ category, refetch }) => {
-  console.log("Category in CategoryCard:", category);
   const [showDetails, setShowDetails] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
 
   const handleDeleteCategory = async (categoryId) => {
     try {
       const res = await categoryService.deleteCategory(categoryId);
       refetch();
-      if(res.success === true){
+      if (res.success === true) {
         toast.success(res.message);
-      }
-      else {
+      } else {
         toast.error(res.message);
       }
       return res;
     } catch (e) {
-       toast.error(e.response?.data?.message);
+      toast.error(e.response?.data?.message);
     }
   };
 
@@ -65,34 +65,27 @@ const CategoryCard = ({ category, refetch }) => {
           <div className="py-2 px-4 rounded-2xl bg-red-100 text-red-600 font-semibold">
             <p>{category?.children?.length} children</p>
           </div>
-          <svg
+
+          <button
+            onClick={() => setOpenModalEdit(true)}
+            className=""
+          >
+            <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
           >
             <path
-              fill="currentColor"
-              d="M21.92 11.6C19.9 6.91 16.1 4 12 4s-7.9 2.91-9.92 7.6a1 1 0 0 0 0 .8C4.1 17.09 7.9 20 12 20s7.9-2.91 9.92-7.6a1 1 0 0 0 0-.8M12 18c-3.17 0-6.17-2.29-7.9-6C5.83 8.29 8.83 6 12 6s6.17 2.29 7.9 6c-1.73 3.71-4.73 6-7.9 6m0-10a4 4 0 1 0 4 4a4 4 0 0 0-4-4m0 6a2 2 0 1 1 2-2a2 2 0 0 1-2 2"
-            />
-          </svg>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <g
               fill="none"
               stroke="currentColor"
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
-            >
-              <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
-              <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
-            </g>
+              strokeWidth="1.5"
+              d="M3 21h18M12.222 5.828L15.05 3L20 7.95l-2.828 2.828m-4.95-4.95l-5.607 5.607a1 1 0 0 0-.293.707v4.536h4.536a1 1 0 0 0 .707-.293l5.607-5.607m-4.95-4.95l4.95 4.95"
+            />
           </svg>
+          </button>
           {/* Delete */}
           <button
             onClick={() => handleDeleteCategory(category.id)}
@@ -101,8 +94,8 @@ const CategoryCard = ({ category, refetch }) => {
             {" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
             >
               <path
@@ -131,34 +124,6 @@ const CategoryCard = ({ category, refetch }) => {
               </div>
             </div>
             <div className="flex items-center gap-4 text-[16px]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M21.92 11.6C19.9 6.91 16.1 4 12 4s-7.9 2.91-9.92 7.6a1 1 0 0 0 0 .8C4.1 17.09 7.9 20 12 20s7.9-2.91 9.92-7.6a1 1 0 0 0 0-.8M12 18c-3.17 0-6.17-2.29-7.9-6C5.83 8.29 8.83 6 12 6s6.17 2.29 7.9 6c-1.73 3.71-4.73 6-7.9 6m0-10a4 4 0 1 0 4 4a4 4 0 0 0-4-4m0 6a2 2 0 1 1 2-2a2 2 0 0 1-2 2"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <g
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                >
-                  <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
-                  <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3zM16 5l3 3" />
-                </g>
-              </svg>
               {/* Delete */}
               <button
                 onClick={() => handleDeleteCategory(child.id)}
@@ -166,8 +131,8 @@ const CategoryCard = ({ category, refetch }) => {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
+                  width="20"
+                  height="20"
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -183,7 +148,9 @@ const CategoryCard = ({ category, refetch }) => {
             </div>
           </div>
         ))}
+      {openModalEdit && <ModalUpdateCategory onClose = {() => setOpenModalEdit(false)} />}
     </div>
+    
   );
 };
 

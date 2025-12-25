@@ -24,29 +24,18 @@ const TabSelect = ({ activeTab, handleOnTabChange }) => {
               : "hover:bg-red-200 hover:text-white cursor-pointer"
           }`}
         >
-          Courses
+          Khoá học
         </li>
         <li
-          onClick={() => handleOnTabChange("users")}
+          onClick={() => handleOnTabChange("createCourse")}
           className={`p-2 rounded-lg font-semibold 
           ${
-            activeTab === "users"
+            activeTab === "createCourse"
               ? "bg-red-500 text-white"
               : "hover:bg-red-200 hover:text-white cursor-pointer"
           }`}
         >
-          Users
-        </li>
-        <li
-          onClick={() => handleOnTabChange("orders")}
-          className={`p-2 rounded-lg font-semibold 
-          ${
-            activeTab === "orders"
-              ? "bg-red-500 text-white"
-              : "hover:bg-red-200 hover:text-white cursor-pointer"
-          }`}
-        >
-          Orders
+          Tạo khoá học
         </li>
         <li
           onClick={() => handleOnTabChange("categories")}
@@ -59,6 +48,29 @@ const TabSelect = ({ activeTab, handleOnTabChange }) => {
         >
           Danh mục khoá học{" "}
         </li>
+        <li
+          onClick={() => handleOnTabChange("users")}
+          className={`p-2 rounded-lg font-semibold 
+          ${
+            activeTab === "users"
+              ? "bg-red-500 text-white"
+              : "hover:bg-red-200 hover:text-white cursor-pointer"
+          }`}
+        >
+          Người dùng
+        </li>
+        <li
+          onClick={() => handleOnTabChange("orders")}
+          className={`p-2 rounded-lg font-semibold 
+          ${
+            activeTab === "orders"
+              ? "bg-red-500 text-white"
+              : "hover:bg-red-200 hover:text-white cursor-pointer"
+          }`}
+        >
+          Đơn hàng
+        </li>
+        
         <li
           onClick={() => handleOnTabChange("analytics")}
           className={`p-2 rounded-lg font-semibold 

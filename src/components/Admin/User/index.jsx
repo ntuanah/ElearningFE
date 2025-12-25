@@ -7,21 +7,25 @@ import UserInformation from "./UserInformation";
 import EditUser from "./EditUser";
 
 const Users = () => {
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
   const [openInfo, setOpenInfo] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
 
-  const fetchUsers = async () => {
-    const data = await userService.getAllUsers();
+  const fetchUsers = async (page, size) => {
+    const data = await userService.getAllUsers(page, size);
     return data;
   };
 
   const { data: users = [] } = useQuery({
-    queryKey: ["admin-users"],
-    queryFn: fetchUsers,
+    queryKey: ["admin-users", page, size],
+    queryFn: () => fetchUsers(page, size),
   });
 
-  console.log(users);
+  const userList = users?.data?.content || [];
+  const totalPages = users?.data?.totalPages || 1;
+
   return (
     <div>
       <div className=" p-4 border-b border-red-200 shadow-sm flex items-center justify-between">
@@ -42,8 +46,6 @@ const Users = () => {
             <tr>
               <th className="py-3 px-4">USER</th>
               <th className="py-3 px-4">EMAIL</th>
-              <th className="py-3 px-4">COURSES</th>
-
               <th className="py-3 px-4">JOIN</th>
               <th className="py-3 px-4">STATUS</th>
               <th className="py-3 px-4">ACTIONS</th>
@@ -54,14 +56,13 @@ const Users = () => {
               <tr key={u.id}>
                 <td className="py-3 px-4 flex items-center gap-3">
                   <img
-                    src={u.avatar || null}
+                    src={u.avatar || "https://static.vecteezy.com/system/resources/previews/024/766/958/non_2x/default-male-avatar-profile-icon-social-media-user-free-vector.jpg"}
                     alt="avatar"
                     className="w-10 h-10 rounded-full border border-red-200"
                   />
                   <span className="font-bold">{u.name}</span>
                 </td>
                 <td className="py-3 px-4 text-gray-500">{u.email}</td>
-                <td className="py-3 px-4 font-semibold">{u.courses}</td>
 
                 <td className="py-3 px-4">{formatDate(u.createdAt)}</td>
                 <td className="py-3 px-4">
@@ -98,6 +99,54 @@ const Users = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex items-center space-x-1 justify-center mt-6">
+        <button
+          onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          disabled={page === 0}
+          className="px-4 py-2 bg-gray-100 rounded hover:bg-red-200 disabled:opacity-50"
+        >
+          Trước
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => i)
+          .filter(
+            (n) =>
+              n === 0 ||
+              n === totalPages - 1 ||
+              (n >= page - 2 && n <= page + 2)
+          )
+          .map((n, idx, arr) => {
+            const isEllipsis =
+              idx > 0 && n !== arr[idx - 1] + 1;
+
+            return (
+              <span key={n} className="flex items-center">
+                {isEllipsis && <span className="px-2">...</span>}
+                <button
+                  onClick={() => setPage(n)}
+                  className={`w-8 h-8 rounded ${
+                    page === n
+                      ? "bg-red-500 text-white"
+                      : "bg-gray-100 hover:bg-red-200"
+                  }`}
+                >
+                  {n + 1}
+                </button>
+              </span>
+            );
+          })}
+
+        <button
+          onClick={() =>
+            setPage((p) => Math.min(p + 1, totalPages - 1))
+          }
+          disabled={page === totalPages - 1}
+          className="px-4 py-2 bg-gray-100 rounded hover:bg-red-200 disabled:opacity-50"
+        >
+          Sau
+        </button>
       </div>
 
       {openInfo && (
