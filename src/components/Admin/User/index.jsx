@@ -48,6 +48,7 @@ const Users = () => {
               <th className="py-3 px-4">EMAIL</th>
               <th className="py-3 px-4">Ngày tạo</th>
               <th className="py-3 px-4">Trạng thái</th>
+              <th className="py-3 px-4">Vai trò</th>
               <th className="py-3 px-4">Hành động</th>
             </tr>
           </thead>
@@ -81,6 +82,11 @@ const Users = () => {
                       </span>
                     </span>
                   )}
+                </td>
+                <td className="py-3 px-4">
+                  <span className="px-3 py-1 rounded-full text-red-500 bg-red-200 text-xs font-medium">
+                    {u.role}
+                  </span>
                 </td>
                 <td className="py-3 px-4">
                   <div className="flex items-center justify-center gap-3 text-gray-500">

@@ -107,6 +107,7 @@ const Courses = () => {
                     {c.status}
                   </span>
                 </td>
+                
                 <td className="py-3 px-4">
                   <div className="flex items-center justify-center gap-3 text-gray-500">
                     <button
