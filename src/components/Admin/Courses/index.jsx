@@ -59,25 +59,20 @@ const Courses = () => {
               className="flex-1 outline-none text-sm"
             />
           </div>
-          <button
-            onClick={() => setOpenAdd(true)}
-            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm text-bold"
-          >
-            <Plus size={16} /> Add Course
-          </button>
+          
         </div>
       </div>
       <div>
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-100 border-b border-red-200 text-red-400 text-sm">
             <tr>
-              <th className="py-3 px-4">COURSE</th>
-              <th className="py-3 px-4">INSTRUCTOR</th>
-              <th className="py-3 px-4">STUDENTS</th>
-              <th className="py-3 px-4">REVENUE</th>
-              <th className="py-3 px-4">RATING</th>
-              <th className="py-3 px-4">STATUS</th>
-              <th className="py-3 px-4">ACTIONS</th>
+              <th className="py-3 px-4">Tên khoá học</th>
+              <th className="py-3 px-4">Giảng viên</th>
+              <th className="py-3 px-4">Học viên</th>
+              <th className="py-3 px-4">Giá</th>
+              <th className="py-3 px-4">Đánh giá</th>
+              <th className="py-3 px-4">Trạng thái</th>
+              <th className="py-3 px-4">Hành động</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-red-200 ">

@@ -44,11 +44,11 @@ const Users = () => {
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-100 border-b border-red-200 text-red-400 text-sm">
             <tr>
-              <th className="py-3 px-4">USER</th>
+              <th className="py-3 px-4">Người dùng</th>
               <th className="py-3 px-4">EMAIL</th>
-              <th className="py-3 px-4">JOIN</th>
-              <th className="py-3 px-4">STATUS</th>
-              <th className="py-3 px-4">ACTIONS</th>
+              <th className="py-3 px-4">Ngày tạo</th>
+              <th className="py-3 px-4">Trạng thái</th>
+              <th className="py-3 px-4">Hành động</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-red-200">
@@ -60,7 +60,7 @@ const Users = () => {
                     alt="avatar"
                     className="w-10 h-10 rounded-full border border-red-200"
                   />
-                  <span className="font-bold">{u.name}</span>
+                  <span className="py-3 px-4 font-bold text-red-500 truncate">{u.fullName}</span>
                 </td>
                 <td className="py-3 px-4 text-gray-500">{u.email}</td>
 

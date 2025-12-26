@@ -6,6 +6,7 @@ import ModalUpdateCategory from "../../Modal/ModalUpdateCategory";
 const CategoryCard = ({ category, refetch }) => {
   const [showDetails, setShowDetails] = useState(false);
   const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
 
   const handleDeleteCategory = async (categoryId) => {
     try {
@@ -67,24 +68,27 @@ const CategoryCard = ({ category, refetch }) => {
           </div>
 
           <button
-            onClick={() => setOpenModalEdit(true)}
+            onClick={() => {
+              setEditingCategory(category);
+              setOpenModalEdit(true);
+            }}
             className=""
           >
             <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="M3 21h18M12.222 5.828L15.05 3L20 7.95l-2.828 2.828m-4.95-4.95l-5.607 5.607a1 1 0 0 0-.293.707v4.536h4.536a1 1 0 0 0 .707-.293l5.607-5.607m-4.95-4.95l4.95 4.95"
-            />
-          </svg>
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+                d="M3 21h18M12.222 5.828L15.05 3L20 7.95l-2.828 2.828m-4.95-4.95l-5.607 5.607a1 1 0 0 0-.293.707v4.536h4.536a1 1 0 0 0 .707-.293l5.607-5.607m-4.95-4.95l4.95 4.95"
+              />
+            </svg>
           </button>
           {/* Delete */}
           <button
@@ -124,6 +128,29 @@ const CategoryCard = ({ category, refetch }) => {
               </div>
             </div>
             <div className="flex items-center gap-4 text-[16px]">
+              <button
+                onClick={() => {
+                  setEditingCategory(child);
+                  setOpenModalEdit(true);
+                }}
+                className=""
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    d="M3 21h18M12.222 5.828L15.05 3L20 7.95l-2.828 2.828m-4.95-4.95l-5.607 5.607a1 1 0 0 0-.293.707v4.536h4.536a1 1 0 0 0 .707-.293l5.607-5.607m-4.95-4.95l4.95 4.95"
+                  />
+                </svg>
+              </button>
               {/* Delete */}
               <button
                 onClick={() => handleDeleteCategory(child.id)}
@@ -148,9 +175,17 @@ const CategoryCard = ({ category, refetch }) => {
             </div>
           </div>
         ))}
-      {openModalEdit && <ModalUpdateCategory onClose = {() => setOpenModalEdit(false)} />}
+      {openModalEdit && (
+        <ModalUpdateCategory
+          category={editingCategory}
+          onClose={() => {
+            setOpenModalEdit(false);
+            setEditingCategory(null);
+          }}
+          onSuccess={refetch}
+        />
+      )}
     </div>
-    
   );
 };
 

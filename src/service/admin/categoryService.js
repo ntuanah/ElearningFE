@@ -52,3 +52,28 @@ export const deleteCategory = async (categoryId) => {
   );
   return res.data;
 };
+
+export const getCategoryById = async (id) => {
+  const res = await axios.get(
+    `${import.meta.env.VITE_API_URL}/categories/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+}
+
+export const updateCategory = async (id, payload) => {
+  const res = await axios.put(
+    `${import.meta.env.VITE_API_URL}/categories/${id}`,
+    payload,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res.data;
+}

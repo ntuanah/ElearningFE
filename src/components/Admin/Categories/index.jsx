@@ -8,7 +8,7 @@ const [openModalAdd, setOpenModalAdd] = useState(false);
   return (
     <div>
       <div className=" p-4 border-b border-red-200 shadow-sm flex items-center justify-between">
-        <div className="font-bold text-2xl text-red-500">Analytics</div>
+        <div className="font-bold text-2xl text-red-500">Danh mục</div>
         <div className="flex w-1/2 items-center border border-red-400 rounded-full px-3 py-4 hover:bg-red-50 focus-within:!bg-white focus-within:ring-2 focus-within:ring-red-500 mx-4 cursor-pointer ">
           {" "}
           <Search className="text-gray-500 me-2 " size={18} />
