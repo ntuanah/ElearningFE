@@ -33,3 +33,10 @@ export const updateUser = async (userId, data) => {
   );
   return res.data;
 }
+
+export const getPopularInstructors = async (size = 4) => {
+  const res = await axios.get("/api/users/instructors/popular", {
+    params: { size },
+  });
+  return res.data;
+};

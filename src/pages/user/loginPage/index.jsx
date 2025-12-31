@@ -28,6 +28,11 @@ const LoginPage = () => {
       if (res.success === true) {
         toast.success(res.message);
         localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("userId", user.id);
+        localStorage.setItem("userEmail", user.email);
+        localStorage.setItem("userFullName", user.fullName || user.name);
+        localStorage.setItem("userRole", user.role);
+        localStorage.setItem("userAvatar", user.avatar || "");
         Cookies.set("refreshToken", res.data.refreshToken, {
           expires: 7,
           secure: false,

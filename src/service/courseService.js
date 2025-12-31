@@ -13,6 +13,22 @@ export const getAllCourses = async (page, size, filters = {}) => {
   return res.data;
 };
 
+
+/**
+ * Lấy danh sách các khóa học của một instructor cụ thể.
+ * @param {number} instructorId - ID của giảng viên cần lấy khóa học.
+ */
+export const getMyInstructorCourses = async (instructorId) => {
+  const res = await axios.get(`${import.meta.env.VITE_API_URL}/courses/my-courses`, {
+    params: {
+      instructorId: instructorId 
+    }
+  });
+
+  return res.data;
+};
+
+
 export const getCourseById = async (id) => {
   const res = await axios.get(`${import.meta.env.VITE_API_URL}/courses/${id}`, {
     headers: {
